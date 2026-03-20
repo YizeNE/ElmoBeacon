@@ -17,7 +17,16 @@ func GetLangDataMap(gameDataDir, gameServer, lang string) (map[int64]string, err
 		for _, unit := range langData.Units {
 			langMap[unit.Id] = unit.Content
 		}
-	case lang == "zh-TW", lang == "zh-CN":
+	case lang == "zh-CN":
+		var langData pb.LangPackageTableCnData
+		err := util.GetTableData(gameDataDir, "", &langData)
+		if err != nil {
+			return nil, err
+		}
+		for _, unit := range langData.Units {
+			langMap[unit.Id] = unit.Content
+		}
+	case lang == "zh-TW":
 		var langData pb.LangPackageTableZhtcData
 		err := util.GetTableData(gameDataDir, "", &langData)
 		if err != nil {
