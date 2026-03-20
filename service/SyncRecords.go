@@ -5,10 +5,11 @@ import (
 	"ElmoBeacon/model"
 	"ElmoBeacon/request"
 	"fmt"
-	"github.com/pkg/errors"
-	"github.com/rs/zerolog/log"
 	"slices"
 	"strconv"
+
+	"github.com/pkg/errors"
+	"github.com/rs/zerolog/log"
 )
 
 type SyncDiff struct {
@@ -17,6 +18,7 @@ type SyncDiff struct {
 }
 
 type SyncResult struct {
+	Id       int64 // 新增：用户ID
 	Server   string
 	Uid      uint64
 	DiffList []SyncDiff
@@ -56,7 +58,7 @@ func SyncRecords(gameUserInfo *GameUserInfo) (*SyncResult, error) {
 			return nil, errors.New("Failed to update user")
 		}
 	}
-
+	syncResult.Id = userId
 	// fetch gacha records from official server until it matches the latest local record
 	gachaPoolTypeList, err := GetGachaPoolTypeList(gameUserInfo.GameDataDir)
 	if err != nil {
