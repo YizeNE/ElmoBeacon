@@ -2,25 +2,25 @@ export default {
     window: {
         title: 'ElmoBeacon'
     },
-    server:{
-        cn:'China',
-        us:'America',
-        intl:'Global',
-        jp:'Japan',
-        kr:'Korea',
-        tw:'Asia'
+    server: {
+        cn: 'China',
+        us: 'America',
+        intl: 'Global',
+        jp: 'Japan',
+        kr: 'Korea',
+        tw: 'Asia'
     },
-    gacha:{
-        type:{
-            1:'Standard Procurement',
-            3:'Targeted Procurement',
-            4:'Military Upgrade',
-            5:'Beginner Procurement',
-            6:'Custom Procurement - Dolls',
-            7:'Custom Procurement - Weapon',
-            8:'Mystery Box'
+    gacha: {
+        type: {
+            1: 'Standard Procurement',
+            3: 'Targeted Procurement',
+            4: 'Military Upgrade',
+            5: 'Beginner Procurement',
+            6: 'Custom Procurement - Dolls',
+            7: 'Custom Procurement - Weapon',
+            8: 'Mystery Box'
         },
-        statistic:{
+        statistic: {
             totalCount: 'Total Counter',
             pityCount: 'Pity Counter',
             rank5Data: '5-star Data',
@@ -30,9 +30,9 @@ export default {
             upRank5Avg: 'Avg Pulls per Up 5-star',
             nonUpRate: 'NonUp 5-star Rate',
         },
-        records:{
-            title:'Pull Records',
-            tip:'Record names are retrieved from the game client. Therefore, regardless of your language selection, the Chinese server will only display Simplified Chinese, while the international server cannot show Simplified Chinese (if you select Simplified Chinese, it will use Traditional Chinese as a substitute).'
+        records: {
+            title: 'Pull Records',
+            tip: 'Record names are retrieved from the game client. Therefore, regardless of your language selection, the Chinese server will only display Simplified Chinese, while the international server cannot show Simplified Chinese (if you select Simplified Chinese, it will use Traditional Chinese as a substitute).'
         }
     },
     sync: {
@@ -51,6 +51,22 @@ export default {
                 cn: 'Synchronization Error(CN)',
                 os: 'Synchronization Error(OS)'
             }
+        },
+        dialog: {
+            "title": "Sync Record",
+            "uid": "UID",
+            "uidPlaceholder": "Please enter your UID",
+            "gameDataDir": "File Directory",
+            "gameDataDirPlaceholder": "Please select file directory",
+            "browse": "Browse",
+            "tips": "Please select the directory containing the user token.",
+            "cancel": "Cancel",
+            "startSync": "Start Sync",
+            "syncing": "Syncing...",
+            "uidRequired": "UID cannot be empty",
+            "dirRequired": "File directory cannot be empty",
+            "syncError": "Sync Error",
+            "selectDirError": "Failed to select directory"
         }
     },
     version: {
@@ -70,5 +86,5 @@ export default {
         popular: "Popular gradients",
         apply: "Apply",
         cancel: "Cancel"
-  }
+    }
 }

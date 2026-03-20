@@ -50,6 +50,22 @@ export default {
                 cn: '陸服同步出錯',
                 os: '國際服同步出錯'
             }
+        },
+        dialog: {
+            "title": "同步記錄",
+            "uid": "UID",
+            "uidPlaceholder": "請輸入您的UID",
+            "gameDataDir": "檔案目錄",
+            "gameDataDirPlaceholder": "請選擇檔案目錄",
+            "browse": "瀏覽",
+            "tips": "請選擇包含用戶憑證的檔案目錄。",
+            "cancel": "取消",
+            "startSync": "開始同步",
+            "syncing": "同步中...",
+            "uidRequired": "UID不能為空",
+            "dirRequired": "檔案目錄不能為空",
+            "syncError": "同步錯誤",
+            "selectDirError": "選擇目錄失敗"
         }
     },
     theme: {
@@ -61,5 +77,5 @@ export default {
         popular: "流行漸變",
         apply: "應用",
         cancel: "取消"
-  }
+    }
 }
