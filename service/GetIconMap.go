@@ -3,6 +3,8 @@ package service
 import (
 	"ElmoBeacon/pb"
 	"ElmoBeacon/util"
+	"os"
+
 	"github.com/gookit/color"
 )
 
@@ -16,7 +18,15 @@ func GetDollIconMap(gameDataDir string, gameServer string) (map[int64]string, er
 	} else {
 		err := util.GetTableData(gameDataDir, gameServer, &gunData)
 		if err != nil {
-			return nil, err
+			//当前目录不存在时，尝试到上级目录读取
+			if os.IsNotExist(err) {
+				err = util.GetTableData(gameDataDir, "", &gunData)
+				if err != nil {
+					return nil, err
+				}
+			} else {
+				return nil, err
+			}
 		}
 	}
 
@@ -38,7 +48,15 @@ func GetWeaponIconMap(gameDataDir string, gameServer string) (map[int64]string, 
 	} else {
 		err := util.GetTableData(gameDataDir, gameServer, &weaponData)
 		if err != nil {
-			return nil, err
+			//当前目录不存在时，尝试到上级目录读取
+			if os.IsNotExist(err) {
+				err = util.GetTableData(gameDataDir, "", &weaponData)
+				if err != nil {
+					return nil, err
+				}
+			} else {
+				return nil, err
+			}
 		}
 	}
 

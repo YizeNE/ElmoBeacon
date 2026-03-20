@@ -3,6 +3,7 @@ package service
 import (
 	"ElmoBeacon/pb"
 	"ElmoBeacon/util"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -24,7 +25,15 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 	} else {
 		err := util.GetTableData(gameDataDir, gameServer, &gachaData)
 		if err != nil {
-			return nil, err
+			//当前目录不存在时，尝试到上级目录读取
+			if os.IsNotExist(err) {
+				err = util.GetTableData(gameDataDir, "", &gachaData)
+				if err != nil {
+					return nil, err
+				}
+			} else {
+				return nil, err
+			}
 		}
 	}
 

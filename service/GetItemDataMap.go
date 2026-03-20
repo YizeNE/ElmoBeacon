@@ -3,6 +3,7 @@ package service
 import (
 	"ElmoBeacon/pb"
 	"ElmoBeacon/util"
+	"os"
 )
 
 func GetItemDataMap(gameDataDir string, gameServer string) (map[int64]*pb.Item, error) {
@@ -15,7 +16,15 @@ func GetItemDataMap(gameDataDir string, gameServer string) (map[int64]*pb.Item, 
 	} else {
 		err := util.GetTableData(gameDataDir, gameServer, &itemData)
 		if err != nil {
-			return nil, err
+			//当前目录不存在时，尝试到上级目录读取
+			if os.IsNotExist(err) {
+				err = util.GetTableData(gameDataDir, "", &itemData)
+				if err != nil {
+					return nil, err
+				}
+			} else {
+				return nil, err
+			}
 		}
 	}
 
