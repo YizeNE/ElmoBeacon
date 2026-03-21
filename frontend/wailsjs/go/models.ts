@@ -119,6 +119,7 @@ export namespace service {
 	    }
 	}
 	export class SyncResult {
+	    Id: number;
 	    Server: string;
 	    Uid: number;
 	    DiffList: SyncDiff[];
@@ -129,6 +130,7 @@ export namespace service {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Id = source["Id"];
 	        this.Server = source["Server"];
 	        this.Uid = source["Uid"];
 	        this.DiffList = this.convertValues(source["DiffList"], SyncDiff);

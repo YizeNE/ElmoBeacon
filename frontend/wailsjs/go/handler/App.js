@@ -22,16 +22,16 @@ export function GetVersion() {
   return window['go']['handler']['App']['GetVersion']();
 }
 
+export function SelectFilePath() {
+  return window['go']['handler']['App']['SelectFilePath']();
+}
+
 export function SetSetting(arg1, arg2) {
   return window['go']['handler']['App']['SetSetting'](arg1, arg2);
 }
 
-export function SyncRecordsCN() {
-  return window['go']['handler']['App']['SyncRecordsCN']();
-}
-
-export function SyncRecordsOS() {
-  return window['go']['handler']['App']['SyncRecordsOS']();
+export function SyncRecords(arg1, arg2) {
+  return window['go']['handler']['App']['SyncRecords'](arg1, arg2);
 }
 
 export function UpdateTo(arg1) {

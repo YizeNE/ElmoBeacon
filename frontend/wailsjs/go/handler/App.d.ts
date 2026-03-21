@@ -14,10 +14,10 @@ export function GetUserList():Promise<Array<model.User>>;
 
 export function GetVersion():Promise<string>;
 
+export function SelectFilePath():Promise<string>;
+
 export function SetSetting(arg1:string,arg2:string):Promise<void>;
 
-export function SyncRecordsCN():Promise<service.SyncResult>;
-
-export function SyncRecordsOS():Promise<service.SyncResult>;
+export function SyncRecords(arg1:number,arg2:string):Promise<service.SyncResult>;
 
 export function UpdateTo(arg1:string):Promise<void>;
