@@ -1,8 +1,15 @@
 package request
 
 import (
+	"encoding/json"
+	"fmt"
+
 	"github.com/pkg/errors"
-	"io"
+)
+
+const (
+	Owner = "YizeNE"
+	Repo  = "ElmoBeacon"
 )
 
 func GetLatestVersion() (string, error) {
@@ -11,7 +18,7 @@ func GetLatestVersion() (string, error) {
 		return "", err
 	}
 
-	resp, err := client.Get("https://gfl2worker.mcc.wiki/ElmoBeacon/version")
+	resp, err := client.Get(fmt.Sprintf("https://api.github.com/repos/%s/%s/releases/latest", Owner, Repo))
 	if err != nil {
 		return "", err
 	}
@@ -21,10 +28,14 @@ func GetLatestVersion() (string, error) {
 		return "", errors.New(resp.Status)
 	}
 
-	bodyBytes, err := io.ReadAll(resp.Body)
+	// 解析 JSON 获取 tag_name
+	var release struct {
+		TagName string `json:"tag_name"`
+	}
+	err = json.NewDecoder(resp.Body).Decode(&release)
 	if err != nil {
 		return "", err
 	}
 
-	return string(bodyBytes), nil
+	return release.TagName, nil
 }

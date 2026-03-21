@@ -3,11 +3,17 @@ package handler
 import (
 	"ElmoBeacon/request"
 	"fmt"
-	"github.com/inconshreveable/go-update"
-	"github.com/pkg/errors"
 	"net/http"
 	"os"
 	"os/exec"
+
+	"github.com/inconshreveable/go-update"
+	"github.com/pkg/errors"
+)
+
+const (
+	Owner = "YizeNE"
+	Repo  = "ElmoBeacon"
 )
 
 const Version = ""
@@ -21,7 +27,8 @@ func (a *App) GetLatestVersion() (string, error) {
 }
 
 func (a *App) UpdateTo(version string) error {
-	resp, err := http.Get(fmt.Sprintf("https://gfl2bucket.mcc.wiki/ElmoBeacon/%s/ElmoBeacon.exe", version))
+	downloadURL := fmt.Sprintf("https://github.com/%s/%s/releases/download/%s/ElmoBeacon.exe", Owner, Repo, version)
+	resp, err := http.Get(downloadURL)
 	if err != nil {
 		return err
 	}
