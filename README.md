@@ -37,7 +37,7 @@
 
 1. 由于游戏日志不再存储用户凭证，因此需要使用抓包软件来获取[点此下载Fiddler](https://api.getfiddler.com/fc/latest)（默认情况下Fiddler只能抓取HTTP请求，因此还需要进行配置[参考](https://developer.aliyun.com/article/1342462)）
 1. 配置好Fiddler后确保Fiddler正在运行，然后在游戏内点击访问记录，此时Fiddler记录中会出现一条Host为`gf2-gacha-record-xxx`，URL为`/list?xxx`的记录，右键此条记录Save>Selected Sessions>as Text将该条记录保存至本地
-1. 打开本软件，点击同步记录后输入自己的UID并选择步骤2中保存至本地的记录即可开始获取抽卡记录（⚠本地记录具有时效性，请定期按步骤2重新获取）
+1. 打开本软件，点击同步记录后输入自己的UID并选择步骤2中保存至本地的记录即可开始获取抽卡记录（⚠进行该步骤时请关闭Fiddler以免报错，另外本地的记录具有时效性，请定期按步骤2重新获取）
 
 ## 本地开发
 
