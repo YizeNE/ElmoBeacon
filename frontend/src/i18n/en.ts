@@ -32,7 +32,7 @@ export default {
         },
         records: {
             title: 'Pull Records',
-            tip: 'Record names are retrieved from the game client. Therefore, regardless of your language selection, the Chinese server will only display Simplified Chinese, while the international server cannot show Simplified Chinese (if you select Simplified Chinese, it will use Traditional Chinese as a substitute).'
+            tip: 'The official server only retains records from the past six months. Please keep local records safe to prevent loss.'
         }
     },
     sync: {

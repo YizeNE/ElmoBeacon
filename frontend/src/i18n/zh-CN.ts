@@ -21,18 +21,18 @@ export default {
             8: '神秘箱'
         },
         statistic: {
-            totalCount: '记录总数',
+            totalCount: '总抽数',
             pityCount: '保底进度',
             rank5Data: '五星数据',
             rank4Data: '四星数据',
             rank3Data: '三星数据',
             rank5Avg: '五星平均抽数',
-            upRank5Avg: 'Up五星平均抽数',
+            upRank5Avg: '限定五星平均抽数',
             nonUpRate: '五星歪率',
         },
         records: {
             title: '抽卡记录',
-            tip: '记录名称读取自游戏本体，因此不管你选择什么语言，国服只会显示简体中文，国际服无法显示简体中文(如果你选择了简体中文，将使用繁体中文代替)'
+            tip: '官方服务器仅保存近六个月内的记录，请妥善保存本地记录以免丢失'
         }
     },
     sync: {

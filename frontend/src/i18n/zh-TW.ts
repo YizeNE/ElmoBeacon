@@ -21,17 +21,18 @@ export default {
             8: '神秘箱'
         },
         statistic: {
-            totalCount: '記錄總數',
+            totalCount: '總抽數',
             pityCount: '保底進度',
             rank5Data: '五星數據',
             rank4Data: '四星數據',
             rank3Data: '三星數據',
             rank5Avg: '五星平均抽數',
-            upRank5Avg: 'Up五星平均抽數',
+            upRank5Avg: '限定五星平均抽數',
             nonUpRate: '五星歪率',
         },
         records: {
-            title: '抽卡記錄'
+            title: '抽卡記錄',
+            tip: '官方服務器僅保存近六個月內的記錄，請妥善保存本地記錄以免丟失'
         }
     },
     sync: {
