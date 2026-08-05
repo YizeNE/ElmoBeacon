@@ -27,8 +27,12 @@ func (a *App) GetLatestVersion() (string, error) {
 }
 
 func (a *App) UpdateTo(version string) error {
+	client, err := request.NewHttpClient()
+	if err != nil {
+		return err
+	}
 	downloadURL := fmt.Sprintf("https://github.com/%s/%s/releases/download/%s/ElmoBeacon.exe", Owner, Repo, version)
-	resp, err := http.Get(downloadURL)
+	resp, err := client.Get(downloadURL)
 	if err != nil {
 		return err
 	}
