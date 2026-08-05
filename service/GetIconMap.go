@@ -32,7 +32,7 @@ func GetDollIconMap(gameDataDir string, gameServer string) (map[int64]string, er
 
 	iconMap := make(map[int64]string)
 	for i, unit := range gunData.Units {
-		iconMap[unit.Id] = color.Sprintf("Avatar_Head_%sUP.png", gunData.Units[i].Code)
+		iconMap[unit.Id] = color.Sprintf("Avatar_Bust_%s.png", gunData.Units[i].Code)
 	}
 
 	return iconMap, nil
