@@ -4,9 +4,10 @@ import (
 	"ElmoBeacon/db"
 	"ElmoBeacon/model"
 	"ElmoBeacon/service"
+	"slices"
+
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
-	"slices"
 )
 
 //
@@ -100,13 +101,47 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 	}
 	if len(recordList) > 0 {
 		var displayRecordList []DisplayRecord
-		var count, judgeCount int64
+		var judgeCount int64
 		var isPreMissing bool
+
+		// 判断是否为保底继承的池子类型
+		isSharedPity := poolType == 1 || poolType == 2 || poolType == 3 || poolType == 4 || poolType == 8
+
+		//非继承模式下，按 pool_id 分别记录保底计数
+		poolIdCountMap := make(map[int64]int64)
+		var sharedCount int64
+
+		// 辅助函数：获取当前 count
+		getCurrentCount := func(poolId int64) int64 {
+			if isSharedPity {
+				return sharedCount
+			}
+			return poolIdCountMap[poolId]
+		}
+
+		// 辅助函数：递增 count
+		incrementCount := func(poolId int64) {
+			if isSharedPity {
+				sharedCount++
+			} else {
+				poolIdCountMap[poolId]++
+			}
+		}
+
+		// 辅助函数：重置 count
+		resetCount := func(poolId int64) {
+			if isSharedPity {
+				sharedCount = 0
+			} else {
+				poolIdCountMap[poolId] = 0
+			}
+		}
+
 		for _, record := range recordList {
 			if gachaPoolInfo, hasPoolInfo := gachaPoolMap[record.PoolId]; hasPoolInfo {
 				if item, hasItemData := itemDataMap[record.ItemId]; hasItemData {
 					poolInfo.TotalCount++
-					count++
+					incrementCount(record.PoolId)
 					if _, isRank5 := gachaPoolInfo.Rank5Item[item.Id]; isRank5 {
 						if text, hasLangData := langDataMap[item.Name.Id]; hasLangData {
 							poolInfo.Rank5Count++
@@ -138,7 +173,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 							displayRecordList = append(displayRecordList, DisplayRecord{
 								Name:      text,
 								Icon:      icon,
-								Count:     count,
+								Count:     getCurrentCount(record.PoolId),
 								Timestamp: record.Timestamp,
 								IsMissing: isMissing,
 							})
@@ -146,7 +181,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 						} else {
 							return PoolInfo{}, errors.Errorf("error occurred when get item name by id:%d", record.ItemId)
 						}
-						count = 0
+						resetCount(record.PoolId)
 					} else if _, isRank4 := gachaPoolInfo.Rank4Item[item.Id]; isRank4 {
 						poolInfo.Rank4Count++
 					} else if _, isRank3 := gachaPoolInfo.Rank3Item[item.Id]; isRank3 {
@@ -160,7 +195,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 			} else {
 				if item, hasItemData := itemDataMap[record.ItemId]; hasItemData {
 					poolInfo.TotalCount++
-					count++
+					incrementCount(record.PoolId)
 					if item.Rank == 5 {
 						if text, hasLangData := langDataMap[item.Name.Id]; hasLangData {
 							poolInfo.Rank5Count++
@@ -192,7 +227,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 							displayRecordList = append(displayRecordList, DisplayRecord{
 								Name:      text,
 								Icon:      icon,
-								Count:     count,
+								Count:     getCurrentCount(record.PoolId),
 								Timestamp: record.Timestamp,
 								IsMissing: isMissing,
 							})
@@ -200,7 +235,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 						} else {
 							return PoolInfo{}, errors.Errorf("error occurred when get item name by id:%d", record.ItemId)
 						}
-						count = 0
+						resetCount(record.PoolId)
 					} else if item.Rank == 4 {
 						poolInfo.Rank4Count++
 					} else if item.Rank == 3 {
@@ -214,7 +249,13 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 			}
 
 		}
-		poolInfo.StoredCount = count
+
+		if isSharedPity {
+			poolInfo.StoredCount = sharedCount
+		} else {
+			poolInfo.StoredCount = poolIdCountMap[recordList[len(recordList)-1].PoolId]
+		}
+
 		if poolInfo.MissingCount > 0 {
 			poolInfo.MissingRate = float64(poolInfo.MissingCount) / float64(judgeCount)
 		}
