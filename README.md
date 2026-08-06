@@ -20,24 +20,21 @@
 
 ## 项目介绍
 
-<p><a href="https://github.com/YizeNE/ElmoBeacon" rel="nofollow">ElmoBeacon</a> is a tool for storing and analyzing GFL2 gacha records.</p>
-<p>The project is compatible with DarkWinter server(China,North America) and Haoplay server(Global,Asia,Japan,Korea).</p>
-<p>This is an open source project and maintained by <a href="https://gf2.mcc.wiki" rel="nofollow">MccWiki</a> and the community.</p>
-<p>The program has implemented the basic features. UI will be optimized later.</p>
-<p>If you have any ideas for UI, feel free to PR!</p>
+<p><a href="https://github.com/YizeNE/ElmoBeacon" rel="nofollow">ElmoBeacon</a> 是一款用以存储和分析《少女前线2：追放》抽卡记录的工具，兼容暗冬服务器（中国大陆、北美）和好玩服务器（全球、亚洲、日本、韩国）。</p>
+<p>这是一个开源项目，由<a href="https://gf2.mcc.wiki" rel="nofollow">MccWiki</a> 和社区共同维护。如果您对该项目有任何想法，欢迎提交PR！</p>
 
 ## 项目需求
 
-- <a href="https://developer.microsoft.com/en-us/microsoft-edge/webview2" rel="nofollow">WebView2</a> (embedded)
-- GFL2 Client
-- Go 1.18+ (develop only)
-- <a href="https://wails.io/docs/gettingstarted/installation/" rel="nofollow">Wails</a> (develop only)
+- 少前2客户端
+- Fiddler
+- Go 1.18+ (仅开发)
+- Wails (仅开发)
 
 ## 使用教程
 
 1. 由于游戏日志不再存储用户凭证，因此需要使用抓包软件来获取[点此下载Fiddler](https://api.getfiddler.com/fc/latest)（默认情况下Fiddler只能抓取HTTP请求，因此还需要进行配置[参考](https://developer.aliyun.com/article/1342462)）
-1. 配置好Fiddler后确保Fiddler正在运行，然后在游戏内点击访问记录，此时Fiddler记录中会出现一条Host为`gf2-gacha-record-xxx`，URL为`/list?xxx`的记录，右键此条记录Save>Selected Sessions>as Text将该条记录保存至本地
-1. 打开本软件，点击同步记录后输入自己的UID并选择步骤2中保存至本地的记录即可开始获取抽卡记录（⚠进行该步骤时请关闭Fiddler以免报错，另外本地的记录具有时效性，请定期按步骤2重新获取）
+1. 配置好Fiddler后确保Fiddler正在运行，然后在游戏内点击访问记录，此时Fiddler记录中会出现一条Host为`gf2-gacha-record-xxx`，URL为`/list?xxx`的记录，右键此条记录**Save>Selected Sessions>as Text**将该条记录保存至本地
+1. 打开本软件，点击同步记录后输入自己的UID并选择步骤2中保存至本地的记录即可开始获取抽卡记录（**⚠进行该步骤时请关闭Fiddler以及其他代理软件以免发生意料之外的错误，此外本地的记录具有时效性，请定期按步骤2重新获取）**
 
 ## 本地开发
 
