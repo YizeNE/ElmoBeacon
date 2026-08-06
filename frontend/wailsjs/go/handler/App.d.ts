@@ -4,6 +4,8 @@ import {handler} from '../models';
 import {model} from '../models';
 import {service} from '../models';
 
+export function GetIcon(arg1:string):Promise<string>;
+
 export function GetLatestVersion():Promise<string>;
 
 export function GetPoolInfo(arg1:number,arg2:number):Promise<handler.PoolInfo>;
