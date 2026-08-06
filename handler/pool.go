@@ -204,7 +204,8 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 							}
 
 							var isMissing bool
-							if item.Id == 1015 || item.Id == 1021 || item.Id == 1025 || item.Id == 1027 || item.Id == 1029 || item.Id == 1033 || item.Id == 1043 || item.Id == 11016 || item.Id == 11020 || item.Id == 11038 || item.Id == 11044 || item.Id == 11047 || item.Id == 10333 || item.Id == 10433 {
+							if item.Id == 1015 || item.Id == 1021 || item.Id == 1025 || item.Id == 1027 || item.Id == 1029 || item.Id == 1033 || item.Id == 1043 || item.Id == 1049 ||
+								item.Id == 11016 || item.Id == 11020 || item.Id == 11038 || item.Id == 11044 || item.Id == 11047 || item.Id == 10333 || item.Id == 10433 || item.Id == 10493 {
 								isMissing = true
 								poolInfo.MissingCount++
 							}
