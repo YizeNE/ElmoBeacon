@@ -82,7 +82,7 @@ const handleSubmit = async () => {
     handleSyncResult(syncResult)
     
     // 处理用户切换逻辑
-    if (syncResult.Uid === userStore.userId) {
+    if (syncResult.Id === userStore.userId) {
       // 相同用户，只刷新池子信息
       await poolStore.updatePoolInfo()
     } else {
@@ -93,6 +93,7 @@ const handleSubmit = async () => {
       if (targetUser) {
         await userStore.updateUserId(targetUser.id)
       }
+      await poolStore.updatePoolInfo()
     }
     
     dialogVisible.value = false
