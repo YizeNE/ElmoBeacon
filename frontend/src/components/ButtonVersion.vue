@@ -11,8 +11,7 @@ const version = ref('dev')
 const checkUpdate = () => {
   GetLatestRelease().then(release => {
     if (release.tag_name != version.value) {
-      // 把更新日志拼到消息里，Markdown 可以简单换行处理
-      const changelog = release.body ? `\n\n${release.body}` : ''
+      const changelog = release.body ? `<br>${release.body}` : ''
       ElMessageBox.confirm(
         t('version.update.notify') + changelog,
         release.tag_name,
