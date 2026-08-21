@@ -37,8 +37,5 @@ func (a *App) SelectFilePath() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if filePath == "" {
-		return "", errors.New("未选择文件")
-	}
 	return filePath, nil
 }
