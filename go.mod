@@ -7,10 +7,9 @@ toolchain go1.23.5
 require (
 	github.com/gookit/color v1.5.4
 	github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf
-	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.33.0
-	github.com/wailsapp/wails/v2 v2.10.1
+	github.com/wailsapp/wails/v2 v2.10.2
 	golang.org/x/sys v0.31.0
 	google.golang.org/protobuf v1.36.1
 	modernc.org/sqlite v1.34.4
@@ -26,6 +25,7 @@ require (
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/go-cmp v0.5.8 // indirect
 	github.com/google/uuid v1.6.0 // indirect
+	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/jchv/go-winloader v0.0.0-20210711035445-715c2860da7e // indirect
 	github.com/json-iterator/go v1.1.12 // indirect

@@ -7,4 +7,5 @@ type Record struct {
 	PoolId    int64
 	ItemId    int64
 	Timestamp int64
+	Rank      int64
 }

@@ -5,6 +5,7 @@ import (
 	"ElmoBeacon/model"
 	"ElmoBeacon/service"
 	"slices"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
@@ -33,6 +34,7 @@ type DisplayRecord struct {
 	Count     int64
 	Timestamp int64
 	IsMissing bool
+	Rank      int64
 }
 
 type PoolInfo struct {
@@ -109,6 +111,8 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 
 		//非继承模式下，按 pool_id 分别记录保底计数
 		poolIdCountMap := make(map[int64]int64)
+		//皮肤池4星保底计数
+		poolIdSrCountMap := make(map[int64]int64)
 		var sharedCount int64
 
 		// 辅助函数：获取当前 count
@@ -141,6 +145,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 			if gachaPoolInfo, hasPoolInfo := gachaPoolMap[record.PoolId]; hasPoolInfo {
 				if item, hasItemData := itemDataMap[record.ItemId]; hasItemData {
 					poolInfo.TotalCount++
+					poolIdSrCountMap[record.PoolId]++
 					incrementCount(record.PoolId)
 					if _, isRank5 := gachaPoolInfo.Rank5Item[item.Id]; isRank5 {
 						if text, hasLangData := langDataMap[item.Name.Id]; hasLangData {
@@ -168,6 +173,19 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 								} else {
 									return PoolInfo{}, errors.Errorf("error occurred when get weapon icon by id %d", item.Id)
 								}
+							} else if item.Type == 13 {
+								icon = strings.ReplaceAll(item.Icon, "Item_Icon_Skin_", "Avatar_Bust_") + ".png"
+								//四种语言采用不同分隔符
+								if strings.Contains(text, " - ") {
+									parts := strings.Split(text, " - ")
+									text = parts[len(parts)-1]
+								} else if strings.Contains(text, "·") {
+									parts := strings.Split(text, "·")
+									text = parts[len(parts)-1]
+								} else if strings.Contains(text, "・") {
+									parts := strings.Split(text, "・")
+									text = parts[len(parts)-1]
+								}
 							}
 
 							displayRecordList = append(displayRecordList, DisplayRecord{
@@ -176,6 +194,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 								Count:     getCurrentCount(record.PoolId),
 								Timestamp: record.Timestamp,
 								IsMissing: isMissing,
+								Rank:      5,
 							})
 							isPreMissing = isMissing
 						} else {
@@ -184,10 +203,32 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 						resetCount(record.PoolId)
 					} else if _, isRank4 := gachaPoolInfo.Rank4Item[item.Id]; isRank4 {
 						poolInfo.Rank4Count++
+						if poolType == 9 {
+							if text, hasLangData := langDataMap[item.Name.Id]; hasLangData {
+								icon := strings.ReplaceAll(item.Icon, "Item_Icon_Skin_", "Avatar_Bust_") + ".png"
+								if strings.Contains(text, " - ") {
+									parts := strings.Split(text, " - ")
+									text = parts[len(parts)-1]
+								} else if strings.Contains(text, "·") {
+									parts := strings.Split(text, "·")
+									text = parts[len(parts)-1]
+								} else if strings.Contains(text, "・") {
+									parts := strings.Split(text, "・")
+									text = parts[len(parts)-1]
+								}
+								displayRecordList = append(displayRecordList, DisplayRecord{
+									Name:      text,
+									Icon:      icon,
+									Count:     poolIdSrCountMap[record.PoolId],
+									Timestamp: record.Timestamp,
+									IsMissing: false,
+									Rank:      4,
+								})
+							}
+							poolIdSrCountMap[record.PoolId] = 0
+						}
 					} else if _, isRank3 := gachaPoolInfo.Rank3Item[item.Id]; isRank3 {
 						poolInfo.Rank3Count++
-					} else {
-						log.Warn().Int64("poolId", record.PoolId).Int64("itemId", item.Id).Msg("unknown rank")
 					}
 				} else {
 					return PoolInfo{}, errors.Errorf("error occurred when get item data by id:%d", record.ItemId)
@@ -231,6 +272,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 								Count:     getCurrentCount(record.PoolId),
 								Timestamp: record.Timestamp,
 								IsMissing: isMissing,
+								Rank:      5,
 							})
 							isPreMissing = isMissing
 						} else {
@@ -241,8 +283,6 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 						poolInfo.Rank4Count++
 					} else if item.Rank == 3 {
 						poolInfo.Rank3Count++
-					} else {
-						log.Warn().Int64("poolId", record.PoolId).Int64("itemId", item.Id).Msg("unknown rank")
 					}
 				} else {
 					return PoolInfo{}, errors.Errorf("error occurred when get item data by id:%d", record.ItemId)

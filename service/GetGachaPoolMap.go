@@ -17,27 +17,47 @@ type GachaPoolInfo struct {
 
 func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPoolInfo, error) {
 	var gachaData pb.GachaData
+	var gachaClothesData pb.GachaClothesData
 	if gameServer == string(GameServerCN) {
-		err := util.GetTableData(gameDataDir, "", &gachaData)
-		if err != nil {
-			return nil, err
+		err1 := util.GetTableData(gameDataDir, "", &gachaData)
+		if err1 != nil {
+			return nil, err1
+		}
+
+		err2 := util.GetTableData(gameDataDir, "", &gachaClothesData)
+		if err2 != nil {
+			return nil, err2
 		}
 	} else {
-		err := util.GetTableData(gameDataDir, gameServer, &gachaData)
-		if err != nil {
+		err1 := util.GetTableData(gameDataDir, gameServer, &gachaData)
+		if err1 != nil {
 			//当前目录不存在时，尝试到上级目录读取
-			if os.IsNotExist(err) {
-				err = util.GetTableData(gameDataDir, "", &gachaData)
-				if err != nil {
-					return nil, err
+			if os.IsNotExist(err1) {
+				err1 = util.GetTableData(gameDataDir, "", &gachaData)
+				if err1 != nil {
+					return nil, err1
 				}
 			} else {
-				return nil, err
+				return nil, err1
+			}
+		}
+
+		err2 := util.GetTableData(gameDataDir, gameServer, &gachaClothesData)
+		if err2 != nil {
+			//当前目录不存在时，尝试到上级目录读取
+			if os.IsNotExist(err2) {
+				err2 = util.GetTableData(gameDataDir, "", &gachaData)
+				if err2 != nil {
+					return nil, err2
+				}
+			} else {
+				return nil, err2
 			}
 		}
 	}
 
 	poolMap := make(map[int64]GachaPoolInfo)
+	//获取皮肤池以外池子的信息
 	for _, unit := range gachaData.Units {
 		gachaPoolInfo := GachaPoolInfo{
 			UpItem:    make(map[int64]struct{}),
@@ -160,6 +180,36 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 		for _, itemId := range unit.OptionalItem {
 			gachaPoolInfo.UpItem[itemId] = struct{}{}
 			gachaPoolInfo.Rank5Item[itemId] = struct{}{}
+		}
+
+		poolMap[unit.Id] = gachaPoolInfo
+	}
+	//获取皮肤池的信息
+	for _, unit := range gachaClothesData.Units {
+		gachaPoolInfo := GachaPoolInfo{
+			UpItem:    make(map[int64]struct{}),
+			Rank5Item: make(map[int64]struct{}),
+			Rank4Item: make(map[int64]struct{}),
+			Rank3Item: make(map[int64]struct{}),
+		}
+
+		if unit.ClothesUpItem != "" {
+			for _, group := range strings.Split(unit.ClothesUpItem, ",") {
+				if strings.HasPrefix(group, "5:") {
+					upClothesId, err := strconv.ParseInt(group[2:], 10, 64)
+					if err != nil {
+						return nil, err
+					}
+					gachaPoolInfo.UpItem[upClothesId] = struct{}{}
+					gachaPoolInfo.Rank5Item[upClothesId] = struct{}{}
+				} else if strings.HasPrefix(group, "4:") {
+					upClothesId, err := strconv.ParseInt(group[2:], 10, 64)
+					if err != nil {
+						return nil, err
+					}
+					gachaPoolInfo.Rank4Item[upClothesId] = struct{}{}
+				}
+			}
 		}
 
 		poolMap[unit.Id] = gachaPoolInfo

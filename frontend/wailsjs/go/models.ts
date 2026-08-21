@@ -6,6 +6,7 @@ export namespace handler {
 	    Count: number;
 	    Timestamp: number;
 	    IsMissing: boolean;
+	    Rank: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new DisplayRecord(source);
@@ -18,6 +19,7 @@ export namespace handler {
 	        this.Count = source["Count"];
 	        this.Timestamp = source["Timestamp"];
 	        this.IsMissing = source["IsMissing"];
+	        this.Rank = source["Rank"];
 	    }
 	}
 	export class PoolInfo {
@@ -97,6 +99,25 @@ export namespace model {
 	        this.server = source["server"];
 	        this.gameDataDir = source["gameDataDir"];
 	        this.lastBBSToken = source["lastBBSToken"];
+	    }
+	}
+
+}
+
+export namespace request {
+	
+	export class ReleaseInfo {
+	    tag_name: string;
+	    body: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new ReleaseInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.tag_name = source["tag_name"];
+	        this.body = source["body"];
 	    }
 	}
 

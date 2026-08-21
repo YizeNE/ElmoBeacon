@@ -26,7 +26,7 @@ func getAssetsDir() (string, error) {
 }
 
 // 根据 iconName 判断子目录
-// 角色图标: Avatar_Head_xxxUP.png → dolls/
+// 角色图标: Avatar_Bust_xxxUP.png → dolls/
 // 武器图标: xxx_256.png           → weapons/
 func getIconSubDir(iconName string) string {
 	if strings.HasPrefix(iconName, "Avatar_Bust_") {

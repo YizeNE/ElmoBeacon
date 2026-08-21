@@ -18,7 +18,8 @@ export default {
             5: 'Beginner Procurement',
             6: 'Custom Procurement - Dolls',
             7: 'Custom Procurement - Weapon',
-            8: 'Mystery Box'
+            8: 'Mystery Box',
+            9: 'Outfit Procurement',
         },
         statistic: {
             totalCount: 'Total Counter',
