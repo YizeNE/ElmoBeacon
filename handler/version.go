@@ -22,8 +22,8 @@ func (a *App) GetVersion() string {
 	return Version
 }
 
-func (a *App) GetLatestVersion() (string, error) {
-	return request.GetLatestVersion()
+func (a *App) GetLatestRelease() (*request.ReleaseInfo, error) {
+	return request.GetLatestRelease()
 }
 
 func (a *App) UpdateTo(version string) error {

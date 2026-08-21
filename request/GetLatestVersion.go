@@ -12,30 +12,32 @@ const (
 	Repo  = "ElmoBeacon"
 )
 
-func GetLatestVersion() (string, error) {
+type ReleaseInfo struct {
+	TagName string `json:"tag_name"`
+	Body    string `json:"body"` // 更新日志（Markdown）
+}
+
+func GetLatestRelease() (*ReleaseInfo, error) {
 	client, err := NewHttpClient()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	resp, err := client.Get(fmt.Sprintf("https://api.github.com/repos/%s/%s/releases/latest", Owner, Repo))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return "", errors.New(resp.Status)
+		return nil, errors.New(resp.Status)
 	}
 
-	// 解析 JSON 获取 tag_name
-	var release struct {
-		TagName string `json:"tag_name"`
-	}
+	var release ReleaseInfo
 	err = json.NewDecoder(resp.Body).Decode(&release)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return release.TagName, nil
+	return &release, nil
 }

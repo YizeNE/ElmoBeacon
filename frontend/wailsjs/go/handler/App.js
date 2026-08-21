@@ -6,8 +6,8 @@ export function GetIcon(arg1) {
   return window['go']['handler']['App']['GetIcon'](arg1);
 }
 
-export function GetLatestVersion() {
-  return window['go']['handler']['App']['GetLatestVersion']();
+export function GetLatestRelease() {
+  return window['go']['handler']['App']['GetLatestRelease']();
 }
 
 export function GetPoolInfo(arg1, arg2) {
