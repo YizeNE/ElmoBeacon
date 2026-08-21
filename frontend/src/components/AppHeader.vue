@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {WindowIsMaximised, WindowMaximise, WindowUnmaximise} from "../../wailsjs/runtime";
+import { WindowIsMaximised, WindowMaximise, WindowUnmaximise } from "../../wailsjs/runtime";
 import ButtonVersion from "./ButtonVersion.vue";
 import ButtonWindowMinimise from "./ButtonWindowMinimise.vue";
 import ButtonWindowMaxmise from "./ButtonWindowMaxmise.vue";
@@ -14,18 +14,23 @@ const handleWindowMaximise = async () => {
 </script>
 
 <template>
-  <div style="--wails-draggable:drag" class="h-20 shrink-0 px-8 text-lg text-stone-400 flex flex-row justify-between items-center gap-2" @dblclick.self="handleWindowMaximise">
-    <div class="text-2xl font-bold select-none mr-auto bg-gradient-to-l from-orange-500 to-slate-50 bg-clip-text text-transparent">
+  <div style="--wails-draggable:drag"
+    class="h-20 shrink-0 px-8 text-lg text-stone-400 flex flex-row justify-between items-center gap-2"
+    @dblclick.self="handleWindowMaximise">
+    <div
+      class="text-2xl font-bold select-none mr-auto bg-gradient-to-l from-orange-500 to-slate-50 bg-clip-text text-transparent">
       <span>{{ $t('window.title') }}</span>
-      <ButtonVersion/>
+      <ButtonVersion />
     </div>
-    
-    <SelectorUser/>
-    <ButtonColorPalette/> <!-- 新增的调色板按钮 -->
-    <SelectorLanguage/>
-    
-    <ButtonWindowMinimise/>
-    <ButtonWindowMaxmise/>
-    <ButtonWindowClose/>
+
+    <div style="--wails-draggable:no-drag" class="flex flex-row items-center">
+      <SelectorUser />
+      <ButtonColorPalette /> <!-- 新增的调色板按钮 -->
+      <SelectorLanguage />
+
+      <ButtonWindowMinimise />
+      <ButtonWindowMaxmise />
+      <ButtonWindowClose />
+    </div>
   </div>
 </template>
