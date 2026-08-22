@@ -1,34 +1,21 @@
 <script setup lang="ts">
-import { GetIcon } from '../../wailsjs/go/handler/App'
-import { ref, watch } from 'vue'
 import { usePoolStore } from '../store/poolStore'
 
 
 const poolStore = usePoolStore()
 
+//1x1透明图片
+const TRANSPARENT = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
+
 const props = defineProps({
   name: { type: String, required: true },
-  icon: { type: String, required: true },
+  iconSrc: { type: String, required: true },
   count: { type: Number, required: true },
   timestamp: { type: Number, required: true },
   isMissing: { type: Boolean, required: true },
   rank: { type: Number, required: true }
 })
 
-const iconSrc = ref('')
-
-const loadIcon = async () => {
-  iconSrc.value = ''
-  if (props.icon) {
-    try {
-      iconSrc.value = await GetIcon(props.icon)
-    } catch {
-      iconSrc.value = ''
-    }
-  }
-}
-
-watch(() => props.icon, loadIcon, { immediate: true })
 
 const getBgColor = () => {
   //角色池|武器池|新手池|皮肤池|神秘箱
@@ -87,9 +74,9 @@ const getBgColor = () => {
 <template>
   <div
     :class="['w-52 h-12 relative shadow-xl rounded-md shrink-0 select-none flex justify-center items-center text-white', getBgColor()]">
-    <img v-if="iconSrc" :src="iconSrc" class="absolute left-1 h-10 w-10 rounded object-cover" />
+    <img :src="iconSrc || TRANSPARENT" class="absolute left-1 h-10 w-10 rounded object-cover"/>
     <el-tooltip effect="dark" :content="new Date(timestamp * 1000).toLocaleString()" placement="top">
-      <div class="relative truncate" :class="iconSrc ? 'pl-10' : ''">
+      <div class="relative truncate pl-10">
         {{ `${name}「${count}」` }}
       </div>
     </el-tooltip>
