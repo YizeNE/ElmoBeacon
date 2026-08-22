@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"golang.org/x/sys/windows/registry"
 )
@@ -15,12 +16,15 @@ func NewHttpClient() (*http.Client, error) {
 	}
 	if proxyURL != nil {
 		return &http.Client{
+			Timeout: 10 * time.Second,
 			Transport: &http.Transport{
 				Proxy: http.ProxyURL(proxyURL),
 			},
 		}, nil
 	} else {
-		return &http.Client{}, nil
+		return &http.Client{
+			Timeout: 10 * time.Second,
+		}, nil
 	}
 
 }
