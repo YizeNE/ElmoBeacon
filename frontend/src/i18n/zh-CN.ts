@@ -31,6 +31,7 @@ export default {
             upRank5Avg: '限定五星平均抽数',
             nonUpRate: '五星歪率',
         },
+        loading: '加载中...',
         records: {
             title: '抽卡记录',
             tip: '官方服务器仅保存近六个月内的记录，请妥善保存本地记录以免丢失'
@@ -41,7 +42,23 @@ export default {
             title: '同步记录',
             tip: '从服务器拉取抽卡记录，匹配到本地数据库最新记录后停止'
         },
-        loading: '正在同步记录...',
+        loading: '',
+        status: {
+            checkingUser: "正在验证用户信息...",
+            readingPoolTypes: "正在获取卡池类型...",
+            fetchingPool: {
+                1: "正在同步常规采购记录...",
+                2: "",
+                3: "正在同步定向采购记录...",
+                4: "正在同步军备提升记录...",
+                5: "正在同步初始采购记录...",
+                6: "正在同步自选采购·人形记录...",
+                7: "正在同步自选采购·军备记录...",
+                8: "正在同步神秘箱记录...",
+                9: "正在同步新装采购记录...",
+                10: ""
+            }
+        },
         result: {
             success: {
                 title: '{server} {uid} 同步成功',
@@ -73,10 +90,11 @@ export default {
     },
     version: {
         update: {
-            notify: '有新的版本可用，是否更新？',
+            notify: '发现新版本',
+            changelog:'更新日志',
             latest: '已是最新版本',
-            confirm: '是',
-            cancel: '否'
+            confirm: '更新',
+            cancel: '取消'
         },
     },
     theme: {
@@ -88,5 +106,5 @@ export default {
         popular: "流行渐变",
         apply: "应用",
         cancel: "取消"
-  }
+    }
 }

@@ -2,26 +2,26 @@ export default {
     window: {
         title: 'ElmoBeacon'
     },
-    server:{
-        cn:'China',
-        us:'America',
-        intl:'Global',
-        jp:'Japan',
-        kr:'Korea',
-        tw:'Asia'
+    server: {
+        cn: 'China',
+        us: 'America',
+        intl: 'Global',
+        jp: 'Japan',
+        kr: 'Korea',
+        tw: 'Asia'
     },
-    gacha:{
-        type:{
-            1:'常駐訪問',
-            3:'限定訪問',
-            4:'軍備拡張',
-            5:'スタートダッシュ訪問',
-            6:'選択訪問・人形',
-            7:'選択訪問・装備',
-            8:'ミステリーボックス',
+    gacha: {
+        type: {
+            1: '常駐訪問',
+            3: '限定訪問',
+            4: '軍備拡張',
+            5: 'スタートダッシュ訪問',
+            6: '選択訪問・人形',
+            7: '選択訪問・装備',
+            8: 'ミステリーボックス',
             9: '新私服配給',
         },
-        statistic:{
+        statistic: {
             totalCount: 'Total Counter',
             pityCount: 'Pity Counter',
             rank5Data: '5-star Data',
@@ -31,8 +31,8 @@ export default {
             upRank5Avg: 'Avg Pulls per Up 5-star',
             nonUpRate: 'NonUp 5-star Rate',
         },
-        records:{
-            title:'Pull Records'
+        records: {
+            title: 'Pull Records'
         }
     },
     sync: {
@@ -40,7 +40,23 @@ export default {
             title: 'Synchronize Records',
             tip: 'Pull records from the server and stops when it matches the latest record in the local database'
         },
-        loading: 'Syncing...',
+        loading: '',
+        status: {
+            checkingUser: "ユーザー情報を確認中...",
+            readingPoolTypes: "カードプールタイプを取得中...",
+            fetchingPool: {
+                1: "常駐訪問の記録を同期中...",
+                2: "",
+                3: "限定訪問の記録を同期中...",
+                4: "軍備拡張の記録を同期中...",
+                5: "スタートダッシュ訪問の記録を同期中...",
+                6: "選択訪問・人形の記録を同期中...",
+                7: "選択訪問・装備の記録を同期中...",
+                8: "ミステリーボックスの記録を同期中...",
+                9: "新私服配給の記録を同期中...",
+                10: ""
+            }
+        },
         result: {
             success: {
                 title: '{server} {uid} Synchronization Success',
@@ -62,5 +78,5 @@ export default {
         popular: "人気グラデーション",
         apply: "適用",
         cancel: "キャンセル"
-  }
+    }
 }

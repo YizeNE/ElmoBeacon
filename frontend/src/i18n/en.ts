@@ -31,6 +31,7 @@ export default {
             upRank5Avg: 'Avg Pulls per Up 5-star',
             nonUpRate: 'NonUp 5-star Rate',
         },
+        loading: 'loading...',
         records: {
             title: 'Pull Records',
             tip: 'The official server only retains records from the past six months. Please keep local records safe to prevent loss.'
@@ -41,7 +42,23 @@ export default {
             title: 'Synchronize Records',
             tip: 'Pull records from the server and stops when it matches the latest record in the local database'
         },
-        loading: 'Syncing...',
+        loading: '',
+        status: {
+            checkingUser: "Verifying user information...",
+            readingPoolTypes: "Fetching pool types...",
+            fetchingPool: {
+                1: "Synchronizing Standard Procurement records...",
+                2: "",
+                3: "Synchronizing Targeted Procurement records...",
+                4: "Synchronizing Military Upgrade records...",
+                5: "Synchronizing Beginner Procurement records...",
+                6: "Synchronizing Custom Procurement - Dolls records...",
+                7: "Synchronizing Custom Procurement - Weapon records...",
+                8: "Synchronizing Mystery Box records...",
+                9: "Synchronizing Outfit Procurement records...",
+                10: ""
+            }
+        },
         result: {
             success: {
                 title: '{server} {uid} Synchronization Success',
@@ -72,10 +89,11 @@ export default {
     },
     version: {
         update: {
-            notify: 'There is a new version available, do you want to update?',
+            notify: 'Update Available',
+            changelog:"What's New",
             latest: 'Already the latest version.',
-            confirm: 'Yes',
-            cancel: 'No'
+            confirm: 'Update Now',
+            cancel: 'Not Now'
         },
     },
     theme: {

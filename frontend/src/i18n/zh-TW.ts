@@ -31,6 +31,7 @@ export default {
             upRank5Avg: '限定五星平均抽數',
             nonUpRate: '五星歪率',
         },
+        loading: '載入中...',
         records: {
             title: '抽卡記錄',
             tip: '官方服務器僅保存近六個月內的記錄，請妥善保存本地記錄以免丟失'
@@ -41,7 +42,23 @@ export default {
             title: '同步記錄',
             tip: '從伺服器拉取抽卡記錄，匹配到本地數據庫最新記錄後停止'
         },
-        loading: '正在同步記錄...',
+        loading: '',
+        status: {
+            checkingUser: "正在驗證使用者資訊...",
+            readingPoolTypes: "正在取得卡池類型...",
+            fetchingPool: {
+                1: "正在同步常規採購紀錄...",
+                2: "",
+                3: "正在同步定向採購紀錄...",
+                4: "正在同步軍備提升紀錄...",
+                5: "正在同步初始採購紀錄...",
+                6: "正在同步自選採購·人形紀錄...",
+                7: "正在同步自選採購·軍備紀錄...",
+                8: "正在同步神秘箱紀錄...",
+                9: "正在同步新裝採購紀錄...",
+                10: ""
+            }
+        },
         result: {
             success: {
                 title: '{server} {uid} 同步成功',
@@ -69,6 +86,15 @@ export default {
             "syncError": "同步錯誤",
             "selectDirError": "選擇目錄失敗"
         }
+    },
+    version: {
+        update: {
+            notify: '發現新版本',
+            changelog:'更新日誌',
+            latest: '已是最新版本',
+            confirm: '更新',
+            cancel: '取消'
+        },
     },
     theme: {
         change: "更改主題",
