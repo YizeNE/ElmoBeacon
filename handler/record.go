@@ -16,7 +16,7 @@ func (a *App) SyncRecords(uid uint64, filePath string) (*service.SyncResult, err
 	}
 
 	// 调用service.SyncRecords进行同步
-	syncResult, err := service.SyncRecords(gameUserInfo)
+	syncResult, err := service.SyncRecords(a.ctx, gameUserInfo)
 	if err != nil {
 		log.Error().Err(err).Msg("")
 		return nil, err

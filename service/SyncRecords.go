@@ -4,12 +4,14 @@ import (
 	"ElmoBeacon/db"
 	"ElmoBeacon/model"
 	"ElmoBeacon/request"
+	"context"
 	"fmt"
 	"slices"
 	"strconv"
 
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 type SyncDiff struct {
@@ -24,12 +26,19 @@ type SyncResult struct {
 	DiffList []SyncDiff
 }
 
-func SyncRecords(gameUserInfo *GameUserInfo) (*SyncResult, error) {
+// 发射同步状态事件的辅助函数
+func emitSyncStatus(ctx context.Context, status string) {
+	runtime.EventsEmit(ctx, "sync:status", status)
+}
+
+func SyncRecords(ctx context.Context, gameUserInfo *GameUserInfo) (*SyncResult, error) {
 	syncResult := SyncResult{
 		Server: string(gameUserInfo.GameServer),
 		Uid:    gameUserInfo.Uid,
 	}
 
+	// 正在验证用户信息
+	emitSyncStatus(ctx, "sync.status.checkingUser")
 	// check if the user exists
 	cond := model.User{GameServer: string(gameUserInfo.GameServer), Uid: gameUserInfo.Uid} //double conditions prevent users from having the same UID on different servers.It seems highly improbable, but it does exist among the users registered at the start of different servers.
 	hasUser, err := db.Engine.Get(&cond)
@@ -59,6 +68,9 @@ func SyncRecords(gameUserInfo *GameUserInfo) (*SyncResult, error) {
 		}
 	}
 	syncResult.Id = userId
+
+	// 正在读取卡池类型
+	emitSyncStatus(ctx, "sync.status.readingPoolTypes")
 	// fetch gacha records from official server until it matches the latest local record
 	gachaPoolTypeList, err := GetGachaPoolTypeList(gameUserInfo.GameDataDir)
 	if err != nil {
@@ -71,6 +83,10 @@ func SyncRecords(gameUserInfo *GameUserInfo) (*SyncResult, error) {
 			UserId:   userId,
 			PoolType: poolType,
 		}
+
+		// 正在同步卡池的记录
+		emitSyncStatus(ctx, fmt.Sprintf("sync.status.fetchingPool.%d", poolType))
+
 		_, err = db.Engine.Desc("id").Get(&latestLocalRecord)
 		if err != nil {
 			log.Error().Err(err).Msg("")
