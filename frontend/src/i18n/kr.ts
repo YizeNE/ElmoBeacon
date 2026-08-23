@@ -2,6 +2,10 @@ export default {
     window: {
         title: 'ElmoBeacon'
     },
+    github: {
+        title: 'GitHub 저장소 보기',
+        error: '저장소 접근 실패'
+    },
     server: {
         cn: 'China',
         us: 'America',

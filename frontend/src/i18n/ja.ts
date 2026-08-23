@@ -2,6 +2,10 @@ export default {
     window: {
         title: 'ElmoBeacon'
     },
+    github: {
+        title: 'GitHub リポジトリを表示',
+        error: 'リポジトリへのアクセスに失敗しました'
+    },
     server: {
         cn: 'China',
         us: 'America',

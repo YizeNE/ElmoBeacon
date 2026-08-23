@@ -2,6 +2,10 @@ export default {
     window: {
         title: '艾莫信標'
     },
+    github: {
+        title: '查看 GitHub 儲存庫',
+        error: '存取儲存庫失敗'
+    },
     server: {
         cn: '陸服',
         us: '美服',
@@ -88,9 +92,10 @@ export default {
         }
     },
     version: {
+        checkUpdate: '檢查更新',
         update: {
             notify: '發現新版本',
-            changelog:'更新日誌',
+            changelog: '更新日誌',
             latest: '已是最新版本',
             confirm: '更新',
             cancel: '取消'

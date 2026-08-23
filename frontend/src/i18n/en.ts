@@ -2,6 +2,10 @@ export default {
     window: {
         title: 'ElmoBeacon'
     },
+    github: {
+        title: 'View GitHub Repository',
+        error: 'Failed to access repository'
+    },
     server: {
         cn: 'China',
         us: 'America',
@@ -88,9 +92,10 @@ export default {
         }
     },
     version: {
+        checkUpdate: 'Check for Updates',
         update: {
             notify: 'Update Available',
-            changelog:"What's New",
+            changelog: "What's New",
             latest: 'Already the latest version.',
             confirm: 'Update Now',
             cancel: 'Not Now'

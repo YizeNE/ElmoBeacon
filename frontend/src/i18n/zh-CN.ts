@@ -1,6 +1,10 @@
 export default {
     window: {
-        title: '艾莫信标'
+        title: '艾莫信标',
+    },
+    github: {
+        title: '查看GitHub仓库',
+        error: '访问仓库失败'
     },
     server: {
         cn: '国服',
@@ -89,9 +93,10 @@ export default {
         }
     },
     version: {
+        checkUpdate: '检查更新',
         update: {
             notify: '发现新版本',
-            changelog:'更新日志',
+            changelog: '更新日志',
             latest: '已是最新版本',
             confirm: '更新',
             cancel: '取消'
