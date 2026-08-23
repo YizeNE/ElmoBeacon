@@ -7,7 +7,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AppFooter: typeof import('./src/components/AppFooter.vue')['default']
     AppHeader: typeof import('./src/components/AppHeader.vue')['default']
     AppMain: typeof import('./src/components/AppMain.vue')['default']
     ButtonColorPalette: typeof import('./src/components/ButtonColorPalette.vue')['default']
