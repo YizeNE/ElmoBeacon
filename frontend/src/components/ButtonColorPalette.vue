@@ -52,6 +52,8 @@ const colorOptions = [
       </button>
     </el-tooltip>
 
+    <div v-if="showPicker" class="fixed inset-0 z-40" @click="showPicker = false"></div>
+
     <!-- 颜色选择器弹窗 -->
     <div v-if="showPicker" class="absolute right-0 mt-2 w-80 p-4 bg-gray-800 rounded-lg shadow-xl z-50 border border-gray-700">
       <h3 class="text-lg font-semibold text-gray-200 mb-4">{{ t('theme.custom') }}</h3>
