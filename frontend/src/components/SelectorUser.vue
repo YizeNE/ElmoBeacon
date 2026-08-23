@@ -7,7 +7,9 @@ const userStore =useUserStore()
 
 <template>
   <el-dropdown v-if="userStore.userId&&userStore.userList">
-    <i-mdi-person class="text-xl text-white mr-2"/>
+    <button class="p-1.5 rounded-full hover:bg-white/10 transition-colors flex items-center">
+      <i-mdi-person class="h-6 w-6 text-white/80 hover:text-white" />
+    </button>
     <template #dropdown >
       <el-dropdown-menu>
         <el-dropdown-item v-for="user in userStore.userList" @click="userStore.updateUserId(user.id)">

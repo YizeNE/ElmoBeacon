@@ -116,12 +116,15 @@ const handleSubmit = async () => {
 <template>
   <div v-if="dialogVisible" class="fixed inset-0 z-50 flex items-center justify-center">
     <!-- 遮罩层 -->
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="!loading && (dialogVisible = false)"></div>
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="!loading && (dialogVisible = false)"></div>
 
     <!-- 弹窗主体 -->
-    <div class="relative bg-gray-800 rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+    <div
+      class="relative bg-white/10 backdrop-blur-xl rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-white/15">
+
       <!-- 头部 -->
-      <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
+      <div class="px-6 py-4 transition-colors duration-500"
+        :style="{ background: `linear-gradient(to right, var(--theme-from), var(--theme-to))` }">
         <h2 class="text-white text-lg font-semibold">{{ $t('sync.dialog.title') }}</h2>
       </div>
 
@@ -129,49 +132,52 @@ const handleSubmit = async () => {
       <div class="p-6 space-y-5">
         <!-- UID输入 -->
         <div>
-          <label class="block text-gray-300 text-sm font-medium mb-2">{{ $t('sync.dialog.uid') }}</label>
+          <label class="block text-gray-200 text-sm font-medium mb-2">{{ $t('sync.dialog.uid') }}</label>
           <input v-model="formData.uid" type="text" inputmode="numeric" pattern="[0-9]*"
             :placeholder="$t('sync.dialog.uidPlaceholder')"
-            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+            class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--theme-to)] focus:border-transparent transition-colors"
             :disabled="loading" />
         </div>
 
         <!-- 文件路径选择 -->
         <div>
-          <label class="block text-gray-300 text-sm font-medium mb-2">{{ $t('sync.dialog.gameDataDir') }}</label>
+          <label class="block text-gray-200 text-sm font-medium mb-2">{{ $t('sync.dialog.gameDataDir') }}</label>
           <div class="flex gap-2">
             <input v-model="formData.gameDataDir" type="text" readonly
               :placeholder="$t('sync.dialog.gameDataDirPlaceholder')"
-              class="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none transition-colors cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap"
+              class="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none transition-colors cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap"
               @click="!loading && selectGameDataDir()" />
             <button @click="selectGameDataDir()" :disabled="loading"
-              class="px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-colors whitespace-nowrap">
+              class="px-4 py-3 bg-white/20 hover:bg-white/30 disabled:bg-white/10 disabled:cursor-not-allowed text-white rounded-lg transition-colors whitespace-nowrap">
               {{ $t('sync.dialog.browse') }}
             </button>
           </div>
         </div>
 
         <!-- 提示信息 -->
-        <div class="bg-blue-900/30 border-l-4 border-blue-500 p-4 rounded">
+        <div class="bg-white/10 border-l-4 border-[var(--theme-to)] p-4 rounded">
           <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-white mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd"
                 d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
                 clip-rule="evenodd" />
             </svg>
-            <p class="text-blue-200 text-sm leading-relaxed break-words">{{ $t('sync.dialog.tips') }}</p>
+            <p class="text-gray-100 text-sm leading-relaxed break-words">{{ $t('sync.dialog.tips') }}</p>
           </div>
         </div>
       </div>
 
       <!-- 底部按钮 -->
-      <div class="px-6 py-4 bg-gray-900/50 border-t border-gray-700 flex justify-end gap-3">
+      <div class="px-6 py-4 bg-white/5 border-t border-white/10 flex justify-end gap-3">
         <button @click="dialogVisible = false" :disabled="loading"
-          class="px-6 py-2.5 border border-gray-600 text-gray-300 hover:text-white hover:bg-gray-700 disabled:bg-gray-700 disabled:text-gray-500 rounded-lg transition-colors">
+          class="px-6 py-2.5 border border-white/20 text-gray-200 hover:text-white hover:bg-white/10 disabled:bg-white/10 disabled:text-gray-500 rounded-lg transition-colors">
           {{ $t('sync.dialog.cancel') }}
         </button>
+
+        <!-- 提交按钮 -->
         <button @click="handleSubmit" :disabled="loading"
-          class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 text-white rounded-lg transition-all flex items-center gap-2">
+          class="px-6 py-2.5 text-white rounded-lg transition-all flex items-center gap-2 shadow-lg border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
+          :style="{ background: `linear-gradient(to right, var(--theme-from), var(--theme-to))` }">
           <span v-if="loading" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
           <span>{{ loading ? $t('sync.dialog.syncing') : $t('sync.dialog.startSync') }}</span>
         </button>
@@ -179,11 +185,16 @@ const handleSubmit = async () => {
     </div>
   </div>
 
-  <el-tooltip :content="$t('sync.button.tip')" placement="top">
-    <el-button type="primary" @click="syncRecords" :disabled="loading">
-      {{ $t('sync.button.title') }}
-    </el-button>
-  </el-tooltip>
+  <el-tooltip :content="$t('sync.button.title')" placement="bottom">
+  <button 
+    @click="syncRecords" 
+    :disabled="loading"
+    class="p-1.5 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+    style="--wails-draggable:no-drag"
+  >
+    <i-mdi-cloud-sync class="h-6 w-6" />
+  </button>
+</el-tooltip>
 </template>
 
 <style scoped>

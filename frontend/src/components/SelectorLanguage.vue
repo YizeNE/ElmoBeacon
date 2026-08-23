@@ -13,7 +13,9 @@ const langStore = useLangStore()
 
 <template>
   <el-dropdown>
-    <i-mdi-translate class="text-lg text-white mr-2"/>
+    <button class="p-1.5 rounded-full hover:bg-white/10 transition-colors flex items-center">
+      <i-mdi-translate class="h-6 w-6 text-white/80 hover:text-white" />
+    </button>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item v-for="lang in langOptions" @click="langStore.updateLang(lang.value)">

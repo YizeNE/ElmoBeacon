@@ -42,16 +42,15 @@ const colorOptions = [
 
 <template>
   <div class="relative">
-    <!-- 调色板按钮 -->
-    <button
-      @click="openPicker"
-      class="p-2 rounded-full hover:bg-gray-700 transition-colors flex items-center"
-      :title="t('theme.change')"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-      </svg>
-    </button>
+     <!-- 调色板按钮 -->
+    <el-tooltip :content="t('theme.change')" placement="bottom" effect="dark">
+      <button
+        @click="openPicker"
+        class="p-1.5 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-colors flex items-center"
+      >
+        <i-mdi-palette class="h-6 w-6" />
+      </button>
+    </el-tooltip>
 
     <!-- 颜色选择器弹窗 -->
     <div v-if="showPicker" class="absolute right-0 mt-2 w-80 p-4 bg-gray-800 rounded-lg shadow-xl z-50 border border-gray-700">
