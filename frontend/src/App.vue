@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppHeader from "./components/AppHeader.vue";
 import AppMain from "./components/AppMain.vue";
-import AppFooter from "./components/AppFooter.vue";
 import {useLangStore} from "./store/langStore.ts";
 import {useUserStore} from "./store/userStore.ts";
 import {usePoolStore} from "./store/poolStore.ts";
@@ -29,7 +28,6 @@ watch(() => [langStore.lang, userStore.userId, poolStore.poolType], async () => 
        :style="{ background: `linear-gradient(to bottom, var(--theme-from), var(--theme-to))` }">
     <AppHeader/>
     <AppMain/>
-    <AppFooter/>
   </div>
 </template>
 
