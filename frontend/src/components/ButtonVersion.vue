@@ -6,12 +6,18 @@ import { NotifyError, NotifySuccess } from "../utils/notify.ts";
 import { useI18n } from "vue-i18n";
 import { marked } from "marked";
 import { BrowserOpenURL } from "../../wailsjs/runtime/runtime";
+import { Loading } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
 const version = ref('dev')
+const checking = ref(false)
 
 const checkUpdate = () => {
+  if (checking.value) return  // 防止重复点击
+  checking.value = true
+
   GetLatestRelease().then(release => {
+    checking.value = false
     if (release.tag_name != version.value) {
       const changelog = release.body
         ? `<div class="update-dialog">
@@ -61,6 +67,9 @@ const checkUpdate = () => {
     } else {
       NotifySuccess(release.tag_name, t('version.update.latest'))
     }
+  }).catch(err => {
+    checking.value = false
+    NotifyError('Error', err)
   })
 }
 
@@ -122,4 +131,7 @@ onMounted(async () => {
   <el-tag class="ml-2 cursor-pointer" size="small" type="success" effect="light" @click="checkUpdate">
     {{ version }}
   </el-tag>
+  <el-icon v-if="checking" class="is-loading" style="margin-left:6px; font-size:15px; color: var(--el-color-success);">
+      <Loading />
+    </el-icon>
 </template>
