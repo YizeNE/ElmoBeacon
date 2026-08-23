@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { nextTick, onMounted, ref } from "vue";
 import { GetLatestRelease, GetVersion, UpdateTo } from "../../wailsjs/go/handler/App";
 import { ElLoading, ElMessageBox } from "element-plus";
 import { NotifyError, NotifySuccess } from "../utils/notify.ts";
 import { useI18n } from "vue-i18n";
 import { marked } from "marked";
+import { BrowserOpenURL } from "../../wailsjs/runtime/runtime";
 
 const { t } = useI18n()
 const version = ref('dev')
@@ -18,7 +19,7 @@ const checkUpdate = () => {
               <div style="height:10px;"></div>
               <div class="changelog">
                 <p class="changelog-label">${t('version.update.changelog')}</p>
-                <div class="prose prose-sm">${marked.parse(release.body)}</div>
+                <div class="prose prose-sm changelog-content">${marked.parse(release.body)}</div>
               </div>
           </div>`
         : ''
@@ -41,6 +42,21 @@ const checkUpdate = () => {
         }).finally(() => {
           loading.close()
         })
+      })
+
+      // 拦截 changelog 内的链接，用系统浏览器打开
+      nextTick(() => {
+        const content = document.querySelector('.changelog-content')
+        if (content) {
+          content.addEventListener('click', (e) => {
+            const target = e.target as HTMLElement
+            const anchor = target.closest('a')
+            if (anchor && anchor.href) {
+              e.preventDefault()
+              BrowserOpenURL(anchor.href)
+            }
+          })
+        }
       })
     } else {
       NotifySuccess(release.tag_name, t('version.update.latest'))
@@ -66,12 +82,12 @@ onMounted(async () => {
   font-weight: 600;
   margin-bottom: 16px;
 }
- 
+
 .changelog {
   max-height: 260px;
   overflow-y: auto;
 }
- 
+
 .changelog-label {
   font-size: 12px;
   font-weight: 600;
@@ -82,7 +98,7 @@ onMounted(async () => {
   text-align: center;
   width: 100%;
 }
- 
+
 .update-message-box .changelog {
   text-align: left;
 }
@@ -94,13 +110,12 @@ onMounted(async () => {
   gap: 24px;
   padding: 16px 0 8px;
 }
- 
+
 .update-message-box .el-message-box__btns button {
   width: 120px;
   height: 38px;
   font-size: 14px;
 }
-
 </style>
 
 <template>
