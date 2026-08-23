@@ -65,7 +65,7 @@ const checkUpdate = () => {
         }
       })
     } else {
-      NotifySuccess(release.tag_name, t('version.update.latest'))
+      NotifySuccess(version.value, t('version.update.latest'))
     }
   }).catch(err => {
     checking.value = false
@@ -128,10 +128,18 @@ onMounted(async () => {
 </style>
 
 <template>
-  <el-tag class="ml-2 cursor-pointer" size="small" type="success" effect="light" @click="checkUpdate">
-    {{ version }}
-  </el-tag>
-  <el-icon v-if="checking" class="is-loading" style="margin-left:6px; font-size:15px; color: var(--el-color-success);">
-      <Loading />
-    </el-icon>
+  <el-tooltip :content="t('version.checkUpdate')" placement="bottom" effect="dark">
+    
+    <span 
+      class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-mono cursor-pointer hover:bg-emerald-500/30 transition-colors"
+      style="--wails-draggable:no-drag"
+      @click="checkUpdate"
+    >
+      {{ version }}
+      
+      <el-icon v-if="checking" class="is-loading ml-1" style="font-size: 14px;">
+        <Loading />
+      </el-icon>
+    </span>
+  </el-tooltip>
 </template>
