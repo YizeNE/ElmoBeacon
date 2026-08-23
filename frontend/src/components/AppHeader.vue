@@ -20,7 +20,9 @@ const handleWindowMaximise = async () => {
     <div
       class="text-2xl font-bold select-none mr-auto bg-gradient-to-l from-orange-500 to-slate-50 bg-clip-text text-transparent">
       <span>{{ $t('window.title') }}</span>
-      <ButtonVersion />
+      <span style="--wails-draggable:no-drag">
+        <ButtonVersion/>
+    </span>
     </div>
 
     <div style="--wails-draggable:no-drag" class="flex flex-row items-center">
