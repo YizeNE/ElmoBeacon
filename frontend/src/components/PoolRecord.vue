@@ -27,7 +27,7 @@ const getBgColor = () => {
     } else {
       return 'bg-gradient-to-br from-rose-500 to-red-700 border border-rose-300/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]'
     }
-  } else if (poolStore.poolType == 4 || poolStore.poolType == 5 || poolStore.poolType == 7) {
+  } else if (poolStore.poolType == 4 || poolStore.poolType == 7) {
     if (props.count <= 50) {
       return 'bg-gradient-to-br from-emerald-500 to-green-700 border border-emerald-300/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]'
     } else if (props.count < 58) {
