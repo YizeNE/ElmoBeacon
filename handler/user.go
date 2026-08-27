@@ -13,7 +13,7 @@ func (a *App) GetUserList() ([]model.User, error) {
 	var userList []model.User
 	err := db.Engine.Find(&userList)
 	if err != nil {
-		log.Error().Err(err).Msg("")
+		log.Error().Err(err).Msg("failed to query user list from db when select file path")
 		return nil, errors.New("error occurred when query user list from db")
 	}
 	return userList, nil
@@ -35,6 +35,7 @@ func (a *App) SelectFilePath() (string, error) {
 		},
 	})
 	if err != nil {
+		log.Error().Err(err).Msg("failed to open file dialog when select file path")
 		return "", err
 	}
 	return filePath, nil

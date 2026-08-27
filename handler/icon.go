@@ -16,10 +16,12 @@ import (
 func getAssetsDir() (string, error) {
 	exePath, err := os.Executable()
 	if err != nil {
+		log.Error().Err(err).Msg("failed to get executable path when get assets dir")
 		return "", err
 	}
 	dir := filepath.Join(filepath.Dir(exePath), "Assets")
 	if err := os.MkdirAll(dir, 0755); err != nil {
+		log.Error().Err(err).Str("dir", dir).Msg("failed to create assets dir when get assets dir")
 		return "", err
 	}
 	return dir, nil
@@ -51,6 +53,7 @@ func (a *App) GetIcon(iconName string) (string, error) {
 	// 确保 doll/weapon 子目录存在
 	iconDir := filepath.Join(assetsDir, subDir)
 	if err := os.MkdirAll(iconDir, 0755); err != nil {
+		log.Error().Err(err).Str("dir", iconDir).Msg("failed to create icon dir when get icon")
 		return "", err
 	}
 
@@ -60,6 +63,7 @@ func (a *App) GetIcon(iconName string) (string, error) {
 	if _, err := os.Stat(localPath); err == nil {
 		data, err := os.ReadFile(localPath)
 		if err != nil {
+			log.Error().Err(err).Str("path", localPath).Msg("failed to read cached icon when get icon")
 			return "", err
 		}
 		return "data:image/png;base64," + base64.StdEncoding.EncodeToString(data), nil
@@ -74,18 +78,19 @@ func (a *App) GetIcon(iconName string) (string, error) {
 
 	client, err := request.NewHttpClient()
 	if err != nil {
+		log.Error().Err(err).Str("icon", iconName).Msg("failed to read response body when get icon")
 		return "", err
 	}
 
 	resp, err := client.Get(downloadURL)
 	if err != nil {
-		log.Error().Err(err).Str("icon", iconName).Msg("failed to download icon")
+		log.Error().Err(err).Str("icon", iconName).Msg("failed to download icon when get icon")
 		return "", err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		log.Warn().Str("icon", iconName).Msg("icon not found")
+		log.Warn().Str("icon", iconName).Msg("icon not found when get icon")
 		return "", nil
 	}
 
@@ -96,7 +101,7 @@ func (a *App) GetIcon(iconName string) (string, error) {
 
 	// 3. 存到本地缓存
 	if err := os.WriteFile(localPath, data, 0644); err != nil {
-		log.Error().Err(err).Msg("failed to cache icon locally")
+		log.Error().Err(err).Msg("failed to cache icon locally when get icon")
 	}
 
 	return "data:image/png;base64," + base64.StdEncoding.EncodeToString(data), nil

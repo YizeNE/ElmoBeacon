@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/rs/zerolog/log"
 )
 
 type GachaPoolInfo struct {
@@ -21,11 +23,13 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 	if gameServer == string(GameServerCN) {
 		err1 := util.GetTableData(gameDataDir, "", &gachaData)
 		if err1 != nil {
+			log.Error().Err(err1).Msg("failed to get gacha data (CN) when get gacha pool map")
 			return nil, err1
 		}
 
 		err2 := util.GetTableData(gameDataDir, "", &gachaClothesData)
 		if err2 != nil {
+			log.Error().Err(err2).Msg("failed to get gacha clothes data (CN) when get gacha pool map")
 			return nil, err2
 		}
 	} else {
@@ -35,9 +39,11 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 			if os.IsNotExist(err1) {
 				err1 = util.GetTableData(gameDataDir, "", &gachaData)
 				if err1 != nil {
+					log.Error().Err(err1).Msg("failed to get fallback gacha data when get gacha pool map")
 					return nil, err1
 				}
 			} else {
+				log.Error().Err(err1).Msg("failed to get gacha data when get gacha pool map")
 				return nil, err1
 			}
 		}
@@ -48,9 +54,11 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 			if os.IsNotExist(err2) {
 				err2 = util.GetTableData(gameDataDir, "", &gachaData)
 				if err2 != nil {
+					log.Error().Err(err2).Msg("failed to get fallback gacha clothes data when get gacha pool map")
 					return nil, err2
 				}
 			} else {
+				log.Error().Err(err2).Msg("failed to get gacha clothes data when get gacha pool map")
 				return nil, err2
 			}
 		}
@@ -70,6 +78,7 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 		if unit.GunUpCharacter != "" {
 			upCharId, err := strconv.ParseInt(strings.ReplaceAll(unit.GunUpCharacter, "：", ":"), 10, 64)
 			if err != nil {
+				log.Error().Err(err).Msg("failed to parse int when get gacha pool map")
 				return nil, err
 			}
 			gachaPoolInfo.UpItem[upCharId] = struct{}{}
@@ -84,6 +93,7 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 				for _, upWeaponIdStr := range splitUpWeaponIdStr {
 					upWeaponId, err := strconv.ParseInt(upWeaponIdStr, 10, 64)
 					if err != nil {
+						log.Error().Err(err).Msg("failed to parse int when get gacha pool map")
 						return nil, err
 					}
 					gachaPoolInfo.UpItem[upWeaponId] = struct{}{}
@@ -102,6 +112,7 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 					for _, charIdStr := range splitCharIdStr {
 						charId, err := strconv.ParseInt(charIdStr, 10, 64)
 						if err != nil {
+							log.Error().Err(err).Msg("failed to parse int when get gacha pool map")
 							return nil, err
 						}
 						gachaPoolInfo.Rank5Item[charId] = struct{}{}
@@ -114,6 +125,7 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 					for _, charIdStr := range splitCharIdStr {
 						charId, err := strconv.ParseInt(charIdStr, 10, 64)
 						if err != nil {
+							log.Error().Err(err).Msg("failed to parse int when get gacha pool map")
 							return nil, err
 						}
 						gachaPoolInfo.Rank4Item[charId] = struct{}{}
@@ -126,6 +138,7 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 					for _, charIdStr := range splitCharIdStr {
 						charId, err := strconv.ParseInt(charIdStr, 10, 64)
 						if err != nil {
+							log.Error().Err(err).Msg("failed to parse int when get gacha pool map")
 							return nil, err
 						}
 						gachaPoolInfo.Rank3Item[charId] = struct{}{}
@@ -145,6 +158,7 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 					for _, weaponIdStr := range splitWeaponIdStr {
 						weaponId, err := strconv.ParseInt(weaponIdStr, 10, 64)
 						if err != nil {
+							log.Error().Err(err).Msg("failed to parse int when get gacha pool map")
 							return nil, err
 						}
 						gachaPoolInfo.Rank5Item[weaponId] = struct{}{}
@@ -157,6 +171,7 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 					for _, weaponIdStr := range splitWeaponIdStr {
 						weaponId, err := strconv.ParseInt(weaponIdStr, 10, 64)
 						if err != nil {
+							log.Error().Err(err).Msg("failed to parse int when get gacha pool map")
 							return nil, err
 						}
 						gachaPoolInfo.Rank4Item[weaponId] = struct{}{}
@@ -169,6 +184,7 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 					for _, weaponIdStr := range splitWeaponIdStr {
 						weaponId, err := strconv.ParseInt(weaponIdStr, 10, 64)
 						if err != nil {
+							log.Error().Err(err).Msg("failed to parse int when get gacha pool map")
 							return nil, err
 						}
 						gachaPoolInfo.Rank3Item[weaponId] = struct{}{}
@@ -198,6 +214,7 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 				if strings.HasPrefix(group, "5:") {
 					upClothesId, err := strconv.ParseInt(group[2:], 10, 64)
 					if err != nil {
+						log.Error().Err(err).Msg("failed to parse int when get gacha pool map")
 						return nil, err
 					}
 					gachaPoolInfo.UpItem[upClothesId] = struct{}{}
@@ -205,6 +222,7 @@ func GetGachaPoolMap(gameDataDir string, gameServer string) (map[int64]GachaPool
 				} else if strings.HasPrefix(group, "4:") {
 					upClothesId, err := strconv.ParseInt(group[2:], 10, 64)
 					if err != nil {
+						log.Error().Err(err).Msg("failed to parse int when get gacha pool map")
 						return nil, err
 					}
 					gachaPoolInfo.Rank4Item[upClothesId] = struct{}{}

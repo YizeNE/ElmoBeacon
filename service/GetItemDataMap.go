@@ -4,6 +4,8 @@ import (
 	"ElmoBeacon/pb"
 	"ElmoBeacon/util"
 	"os"
+
+	"github.com/rs/zerolog/log"
 )
 
 func GetItemDataMap(gameDataDir string, gameServer string) (map[int64]*pb.Item, error) {
@@ -11,6 +13,7 @@ func GetItemDataMap(gameDataDir string, gameServer string) (map[int64]*pb.Item, 
 	if gameServer == string(GameServerCN) {
 		err := util.GetTableData(gameDataDir, "", &itemData)
 		if err != nil {
+			log.Error().Err(err).Str("server", gameServer).Msg("failed to get table data (CN) when get item map")
 			return nil, err
 		}
 	} else {
@@ -20,9 +23,11 @@ func GetItemDataMap(gameDataDir string, gameServer string) (map[int64]*pb.Item, 
 			if os.IsNotExist(err) {
 				err = util.GetTableData(gameDataDir, "", &itemData)
 				if err != nil {
+					log.Error().Err(err).Str("server", gameServer).Msg("failed to get fallback table data when get item map")
 					return nil, err
 				}
 			} else {
+				log.Error().Err(err).Str("server", gameServer).Msg("failed to get table data when get item map")
 				return nil, err
 			}
 		}

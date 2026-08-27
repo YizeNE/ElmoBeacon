@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gookit/color"
+	"github.com/rs/zerolog/log"
 )
 
 func GetDollIconMap(gameDataDir string, gameServer string) (map[int64]string, error) {
@@ -13,6 +14,7 @@ func GetDollIconMap(gameDataDir string, gameServer string) (map[int64]string, er
 	if gameServer == string(GameServerCN) {
 		err := util.GetTableData(gameDataDir, "", &gunData)
 		if err != nil {
+			log.Error().Err(err).Msg("failed to get table data (CN) when get doll icon map")
 			return nil, err
 		}
 	} else {
@@ -22,9 +24,11 @@ func GetDollIconMap(gameDataDir string, gameServer string) (map[int64]string, er
 			if os.IsNotExist(err) {
 				err = util.GetTableData(gameDataDir, "", &gunData)
 				if err != nil {
+					log.Error().Err(err).Msg("failed to get fallback table data when get doll icon map")
 					return nil, err
 				}
 			} else {
+				log.Error().Err(err).Msg("failed to get table data when get doll icon map")
 				return nil, err
 			}
 		}
@@ -43,6 +47,7 @@ func GetWeaponIconMap(gameDataDir string, gameServer string) (map[int64]string, 
 	if gameServer == string(GameServerCN) {
 		err := util.GetTableData(gameDataDir, "", &weaponData)
 		if err != nil {
+			log.Error().Err(err).Msg("failed to get table data (CN) when get weapon icon map")
 			return nil, err
 		}
 	} else {
@@ -52,9 +57,11 @@ func GetWeaponIconMap(gameDataDir string, gameServer string) (map[int64]string, 
 			if os.IsNotExist(err) {
 				err = util.GetTableData(gameDataDir, "", &weaponData)
 				if err != nil {
+					log.Error().Err(err).Msg("failed to get fallback table data when get weapon icon map")
 					return nil, err
 				}
 			} else {
+				log.Error().Err(err).Msg("failed to get table data when get doll weapon map")
 				return nil, err
 			}
 		}

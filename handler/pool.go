@@ -57,48 +57,45 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 	var user model.User
 	_, err = db.Engine.ID(userId).Get(&user)
 	if err != nil {
+		log.Error().Err(err).Int64("userId", userId).Msg("failed to query user when get pool info")
 		return PoolInfo{}, err
 	}
 	lang := model.Setting{Key: "lang"}
 	_, err = db.Engine.Get(&lang)
 	if err != nil {
+		log.Error().Err(err).Msg("failed to query lang setting when get pool info")
 		return PoolInfo{}, err
 	}
 
 	langDataMap, err := service.GetLangDataMap(user.GameDataDir, user.GameServer, lang.Value)
 	if err != nil {
-		log.Error().Err(err).Msg("")
 		return PoolInfo{}, errors.New("error occurred when get lang map")
 	}
 
 	itemDataMap, err := service.GetItemDataMap(user.GameDataDir, user.GameServer)
 	if err != nil {
-		log.Error().Err(err).Msg("")
 		return PoolInfo{}, errors.New("error occurred when get item map")
 	}
 
 	dollIconMap, err := service.GetDollIconMap(user.GameDataDir, user.GameServer)
 	if err != nil {
-		log.Error().Err(err).Msg("")
 		return PoolInfo{}, errors.New("error occurred when get doll icon map")
 	}
 
 	weaponIconMap, err := service.GetWeaponIconMap(user.GameDataDir, user.GameServer)
 	if err != nil {
-		log.Error().Err(err).Msg("")
 		return PoolInfo{}, errors.New("error occurred when get weapon icon map")
 	}
 
 	gachaPoolMap, err := service.GetGachaPoolMap(user.GameDataDir, user.GameServer)
 	if err != nil {
-		log.Error().Err(err).Msg("")
 		return PoolInfo{}, errors.New("error occurred when get gacha pool map")
 	}
 
 	var recordList []model.Record
 	err = db.Engine.OrderBy("id").Find(&recordList, &model.Record{UserId: userId, PoolType: poolType})
 	if err != nil {
-		log.Error().Err(err).Msg("")
+		log.Error().Err(err).Msg("failed to get user record list by poolType from db when get pool info")
 		return PoolInfo{}, errors.New("error occurred when get user record list by poolType from db")
 	}
 	if len(recordList) > 0 {
@@ -165,12 +162,14 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 								if i, hasIcon := dollIconMap[item.Id]; hasIcon {
 									icon = i
 								} else {
+									log.Error().Int64("itemId", item.Id).Msg("doll icon not found when get pool info")
 									return PoolInfo{}, errors.Errorf("error occurred when get doll icon by id %d", item.Id)
 								}
 							} else if item.Type == 20 {
 								if i, hasIcon := weaponIconMap[item.Id]; hasIcon {
 									icon = i
 								} else {
+									log.Error().Int64("itemId", item.Id).Msg("weapon icon not found when get pool info")
 									return PoolInfo{}, errors.Errorf("error occurred when get weapon icon by id %d", item.Id)
 								}
 							} else if item.Type == 13 {
@@ -198,6 +197,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 							})
 							isPreMissing = isMissing
 						} else {
+							log.Error().Int64("itemId", record.ItemId).Msg("item name not found when get pool info")
 							return PoolInfo{}, errors.Errorf("error occurred when get item name by id:%d", record.ItemId)
 						}
 						resetCount(record.PoolId)
@@ -231,6 +231,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 						poolInfo.Rank3Count++
 					}
 				} else {
+					log.Error().Int64("itemId", record.ItemId).Msg("item data not found when get pool info")
 					return PoolInfo{}, errors.Errorf("error occurred when get item data by id:%d", record.ItemId)
 				}
 			} else {
@@ -256,12 +257,14 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 								if i, hasIcon := dollIconMap[item.Id]; hasIcon {
 									icon = i
 								} else {
+									log.Error().Int64("itemId", item.Id).Msg("doll icon not found when get pool info (no pool info branch)")
 									return PoolInfo{}, errors.Errorf("error occurred when get doll icon by id %d", item.Id)
 								}
 							} else if item.Type == 20 {
 								if i, hasIcon := weaponIconMap[item.Id]; hasIcon {
 									icon = i
 								} else {
+									log.Error().Int64("itemId", item.Id).Msg("weapon icon not found when get pool info (no pool info branch)")
 									return PoolInfo{}, errors.Errorf("error occurred when get weapon icon by id %d", item.Id)
 								}
 							}
@@ -276,6 +279,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 							})
 							isPreMissing = isMissing
 						} else {
+							log.Error().Int64("itemId", record.ItemId).Msg("item name not found when get pool info (no pool info branch)")
 							return PoolInfo{}, errors.Errorf("error occurred when get item name by id:%d", record.ItemId)
 						}
 						resetCount(record.PoolId)
@@ -285,6 +289,7 @@ func (a *App) GetPoolInfo(userId, poolType int64) (poolInfo PoolInfo, err error)
 						poolInfo.Rank3Count++
 					}
 				} else {
+					log.Error().Int64("itemId", record.ItemId).Msg("item data not found when get pool info (no pool info branch)")
 					return PoolInfo{}, errors.Errorf("error occurred when get item data by id:%d", record.ItemId)
 				}
 			}

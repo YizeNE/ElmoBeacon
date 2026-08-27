@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	"github.com/rs/zerolog/log"
 )
 
 const (
@@ -42,16 +43,19 @@ type GameUserInfo struct {
 func GetUserInfo(uid uint64, filePath string) (*GameUserInfo, error) {
 	captureDataBytes, err := os.ReadFile(filePath)
 	if err != nil {
+		log.Error().Err(err).Str("filePath", filePath).Msg("failed to read capture file when get user info")
 		return nil, errors.New("Failed to read capture file")
 	}
 
 	//extract GachaRecordUrl
 	regexpGachaRecordUrl, err := regexp.Compile(exprGachaRecordUrl)
 	if err != nil {
+		log.Error().Err(err).Msg("failed to compile exprGachaRecordUrl when get user info")
 		return nil, errors.New("Failed to compile exprGachaRecordUrl")
 	}
 	resultGachaRecordUrlList := regexpGachaRecordUrl.FindSubmatch(captureDataBytes)
 	if resultGachaRecordUrlList == nil {
+		log.Error().Msg("failed to find gacha record url when get user info")
 		return nil, errors.New("Failed to find gacha record url")
 	}
 	gachaRecordUrl := string(resultGachaRecordUrlList[len(resultGachaRecordUrlList)-1])
@@ -72,22 +76,26 @@ func GetUserInfo(uid uint64, filePath string) (*GameUserInfo, error) {
 	case strings.Contains(gachaRecordUrl, "gf2-gacha-record"):
 		server = GameServerCN
 	default:
+		log.Error().Str("url", gachaRecordUrl).Msg("failed to determine server when get user info")
 		return nil, errors.Errorf("Failed to determine server,gacha url:%s", gachaRecordUrl)
 	}
 
 	//extract accessToken
 	regexpLoginInfo, err := regexp.Compile(exprLoginInfo)
 	if err != nil {
+		log.Error().Err(err).Msg("failed to compile exprLoginInfo when get user info")
 		return nil, errors.New("Failed to compile exprLoginInfo")
 	}
 	resultLoginInfoList := regexpLoginInfo.FindSubmatch(captureDataBytes)
 	if resultLoginInfoList == nil {
+		log.Error().Msg("failed to find game login information when get user info")
 		return nil, errors.New("Failed to find game login information")
 	}
 	gameAccessToken := string(resultLoginInfoList[len(resultLoginInfoList)-1])
 
 	userHome, err := os.UserHomeDir()
 	if err != nil {
+		log.Error().Err(err).Msg("failed to get user home dir when get user info")
 		return nil, errors.New("Failed to get user home dir")
 	}
 
@@ -96,30 +104,36 @@ func GetUserInfo(uid uint64, filePath string) (*GameUserInfo, error) {
 	if server == GameServerCN {
 		logDataBytes, err := os.ReadFile(filepath.Join(userHome, gameLogPathCN))
 		if err != nil {
+			log.Error().Err(err).Msg("failed to read game log file(CN) when get user info")
 			return nil, errors.New("Failed to read game log file(CN)")
 		}
 
 		regexpGameDataDir, err := regexp.Compile(exprGameDataDir)
 		if err != nil {
+			log.Error().Err(err).Msg("failed to compile exprGameDataDir(CN) when get user info")
 			return nil, errors.New("Failed to compile exprGameDataDir(CN)")
 		}
 		resultGameDataDir := regexpGameDataDir.FindSubmatch(logDataBytes)
 		if resultGameDataDir == nil {
+			log.Error().Msg("failed to find game data directory(CN) when get user info")
 			return nil, errors.New("Failed to find game data directory(CN)")
 		}
 		gameDataDir = filepath.Join(string(resultGameDataDir[1]), "LocalCache/Data")
 	} else {
 		logDataBytes, err := os.ReadFile(filepath.Join(userHome, gameLogPathOversea))
 		if err != nil {
+			log.Error().Err(err).Msg("failed to read game log file(Oversea) when get user info")
 			return nil, errors.New("Failed to read game log file(Oversea)")
 		}
 
 		regexpGameDataDir, err := regexp.Compile(exprGameDataDir)
 		if err != nil {
+			log.Error().Err(err).Msg("failed to compile exprGameDataDir(Oversea) when get user info")
 			return nil, errors.New("Failed to compile exprGameDataDir(Oversea)")
 		}
 		resultGameDataDir := regexpGameDataDir.FindSubmatch(logDataBytes)
 		if resultGameDataDir == nil {
+			log.Error().Msg("failed to find game data directory(Oversea) when get user info")
 			return nil, errors.New("Failed to find game data directory(Oversea)")
 		}
 		gameDataDir = filepath.Join(string(resultGameDataDir[1]), "LocalCache/Data")

@@ -43,7 +43,7 @@ func SyncRecords(ctx context.Context, gameUserInfo *GameUserInfo) (*SyncResult, 
 	cond := model.User{GameServer: string(gameUserInfo.GameServer), Uid: gameUserInfo.Uid} //double conditions prevent users from having the same UID on different servers.It seems highly improbable, but it does exist among the users registered at the start of different servers.
 	hasUser, err := db.Engine.Get(&cond)
 	if err != nil {
-		log.Error().Err(err).Msg("")
+		log.Error().Err(err).Msg("failed to query user when sync records")
 		return nil, errors.New("Failed to query user")
 	}
 	var userId int64
@@ -55,7 +55,7 @@ func SyncRecords(ctx context.Context, gameUserInfo *GameUserInfo) (*SyncResult, 
 	if !hasUser {
 		_, err = db.Engine.Insert(&user)
 		if err != nil {
-			log.Error().Err(err).Msg("")
+			log.Error().Err(err).Msg("failed to insert user when sync records")
 			return nil, errors.New("Failed to insert user")
 		}
 		userId = user.Id
@@ -63,7 +63,7 @@ func SyncRecords(ctx context.Context, gameUserInfo *GameUserInfo) (*SyncResult, 
 		userId = cond.Id
 		_, err = db.Engine.ID(userId).Update(user)
 		if err != nil {
-			log.Error().Err(err).Msg("")
+			log.Error().Err(err).Msg("failed to update user when sync records")
 			return nil, errors.New("Failed to update user")
 		}
 	}
@@ -74,7 +74,7 @@ func SyncRecords(ctx context.Context, gameUserInfo *GameUserInfo) (*SyncResult, 
 	// fetch gacha records from official server until it matches the latest local record
 	gachaPoolTypeList, err := GetGachaPoolTypeList(gameUserInfo.GameDataDir)
 	if err != nil {
-		log.Error().Err(err).Msg("")
+		log.Error().Err(err).Msg("failed to get gacha pool type list when sync records")
 		return nil, errors.New("Failed to get gacha pool type list")
 	}
 
@@ -89,7 +89,7 @@ func SyncRecords(ctx context.Context, gameUserInfo *GameUserInfo) (*SyncResult, 
 
 		_, err = db.Engine.Desc("id").Get(&latestLocalRecord)
 		if err != nil {
-			log.Error().Err(err).Msg("")
+			log.Error().Err(err).Msg("failed to query latest local record when sync records")
 			return nil, errors.New("Failed to query latest local record")
 		}
 
@@ -99,7 +99,7 @@ func SyncRecords(ctx context.Context, gameUserInfo *GameUserInfo) (*SyncResult, 
 		for {
 			remoteRecordList, err := request.FetchGachaRecordList(gameUserInfo.GachaRecordUrl, gameUserInfo.GameAccessToken, next, poolType)
 			if err != nil {
-				log.Error().Err(err).Msg("")
+				log.Error().Err(err).Msg("failed to fetch gacha record list when sync records")
 				return nil, errors.New("Failed to fetch gacha record list")
 			}
 			for _, remoteRecord := range remoteRecordList.RecordList {
@@ -139,7 +139,7 @@ func SyncRecords(ctx context.Context, gameUserInfo *GameUserInfo) (*SyncResult, 
 
 			_, err = db.Engine.Insert(&incrementalRecordList)
 			if err != nil {
-				log.Error().Err(err).Msg("")
+				log.Error().Err(err).Msg("failed to insert incremental records when sync records")
 				return nil, errors.New("Failed to insert incremental record list")
 			}
 
