@@ -111,5 +111,11 @@ export default {
         popular: "流行漸變",
         apply: "應用",
         cancel: "取消"
+    },
+    user: {
+        change: "切換使用者"
+    },
+    language: {
+        change: "更改語言"
     }
 }

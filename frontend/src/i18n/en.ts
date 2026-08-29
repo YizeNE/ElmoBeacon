@@ -111,5 +111,11 @@ export default {
         popular: "Popular gradients",
         apply: "Apply",
         cancel: "Cancel"
+    },
+    user: {
+        change: "Switch User"
+    },
+    language: {
+        change: "Change Language"
     }
 }
