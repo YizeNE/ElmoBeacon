@@ -7,6 +7,8 @@ import {service} from '../models';
 
 export function CancelUpdate():Promise<void>;
 
+export function DeleteUser(arg1:number):Promise<void>;
+
 export function GetIcon(arg1:string):Promise<string>;
 
 export function GetLatestRelease():Promise<request.ReleaseInfo>;

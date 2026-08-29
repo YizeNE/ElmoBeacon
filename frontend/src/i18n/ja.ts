@@ -82,5 +82,16 @@ export default {
         popular: "人気グラデーション",
         apply: "適用",
         cancel: "キャンセル"
-    }
+    },
+    user: {
+        change: "ユーザー切替",
+        deleteTitle: "ユーザー削除",
+        deleteHint: "このユーザーとすべてのガチャ記録を削除しますか？",
+        confirmBtn: "確認",
+        cancelBtn: "キャンセル",
+        deleteSuccess: "削除しました"
+    },
+    language: {
+        change: "言語変更"
+    },
 }

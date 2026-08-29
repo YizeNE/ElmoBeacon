@@ -1,8 +1,8 @@
-import {defineStore} from "pinia";
-import {ref} from "vue";
-import {model} from "../../wailsjs/go/models.ts";
-import {GetSetting, GetUserList, SetSetting} from "../../wailsjs/go/handler/App";
-import {NotifyError} from "../utils/notify.ts";
+import { defineStore } from "pinia";
+import { ref } from "vue";
+import { model } from "../../wailsjs/go/models.ts";
+import {GetSetting, GetUserList, SetSetting, DeleteUser} from "../../wailsjs/go/handler/App";
+import { NotifyError, NotifySuccess } from "../utils/notify.ts";
 import User = model.User;
 
 const getSettingUserId = async () => {
@@ -44,10 +44,32 @@ export const useUserStore = defineStore('user', () => {
         })
     }
 
+    const deleteUser = async (id: number, successMsg: string) => {
+    await DeleteUser(id).then(async () => {
+        NotifySuccess(successMsg, '')
+        await GetUserList().then((res) => {
+            userList.value = res || []
+        }).catch((err) => {
+            userList.value = []
+            NotifyError('Error', err)
+        })
+        if (userId.value === id) {
+            if (userList.value.length > 0) {
+                await updateUserId(userList.value[0].id)
+            } else {
+                userId.value = undefined
+                await SetSetting("lastUserId", "0")
+            }
+        }
+    }).catch((err: any) => {
+        NotifyError('Error', err)
+    })
+}
+
     const init = async () => {
         userId.value = await getSettingUserId()
         await updateUserList()
     }
 
-    return {userId, userList, updateUserId, updateUserList, init}
+    return {userId, userList, updateUserId, updateUserList, deleteUser, init}
 })

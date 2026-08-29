@@ -6,6 +6,10 @@ export function CancelUpdate() {
   return window['go']['handler']['App']['CancelUpdate']();
 }
 
+export function DeleteUser(arg1) {
+  return window['go']['handler']['App']['DeleteUser'](arg1);
+}
+
 export function GetIcon(arg1) {
   return window['go']['handler']['App']['GetIcon'](arg1);
 }

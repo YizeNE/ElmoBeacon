@@ -25,6 +25,7 @@ declare module 'vue' {
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     IMdiCloudSync: typeof import('~icons/mdi/cloud-sync')['default']
+    IMdiDeleteOutline: typeof import('~icons/mdi/delete-outline')['default']
     IMdiGithub: typeof import('~icons/mdi/github')['default']
     IMdiHelp: typeof import('~icons/mdi/help')['default']
     IMdiPalette: typeof import('~icons/mdi/palette')['default']

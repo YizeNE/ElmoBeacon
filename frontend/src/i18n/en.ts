@@ -113,7 +113,12 @@ export default {
         cancel: "Cancel"
     },
     user: {
-        change: "Switch User"
+        change: "Switch User",
+        deleteTitle: "Delete User",
+        deleteHint: "Delete this user and all their gacha records?",
+        confirmBtn: "Confirm",
+        cancelBtn: "Cancel",
+        deleteSuccess: "Deleted"
     },
     language: {
         change: "Change Language"

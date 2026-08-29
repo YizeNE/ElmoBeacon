@@ -82,5 +82,16 @@ export default {
         popular: "인기 그라데이션",
         apply: "적용",
         cancel: "취소"
+    },
+    user: {
+        change: "사용자 전환",
+        deleteTitle: "사용자 삭제",
+        deleteHint: "이 사용자와 모든 가챠 기록을 삭제하시겠습니까?",
+        confirmBtn: "확인",
+        cancelBtn: "취소",
+        deleteSuccess: "삭제됨"
+    },
+    language: {
+        change: "언어 변경"
     }
 }

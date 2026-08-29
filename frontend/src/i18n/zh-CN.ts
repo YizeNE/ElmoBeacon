@@ -114,7 +114,12 @@ export default {
         cancel: "取消"
     },
     user:{
-        change:"切换用户"
+        change:"切换用户",
+        deleteTitle:"删除用户",
+        deleteHint:"确认删除此用户及其所有抽卡记录?",
+        confirmBtn:"确认",
+        cancelBtn:"取消",
+        deleteSuccess:"删除成功"
     },
     language:{
         change:"更改语言"

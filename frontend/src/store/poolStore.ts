@@ -1,26 +1,29 @@
-import {defineStore} from "pinia";
-import {ref} from "vue";
-import {handler} from "../../wailsjs/go/models.ts";
-import {GetPoolInfo} from "../../wailsjs/go/handler/App";
-import {useUserStore} from "./userStore.ts";
-import {NotifyError} from "../utils/notify.ts";
+import { defineStore } from "pinia";
+import { ref } from "vue";
+import { handler } from "../../wailsjs/go/models.ts";
+import { GetPoolInfo } from "../../wailsjs/go/handler/App";
+import { useUserStore } from "./userStore.ts";
+import { NotifyError } from "../utils/notify.ts";
 import PoolInfo = handler.PoolInfo;
 
 export const usePoolStore = defineStore('pool', () => {
     const poolType = ref(1)
     const poolInfo = ref<PoolInfo>()
-    const loading = ref(false)         
-    let fetchController: AbortController | null = null 
+    const loading = ref(false)
+    let fetchController: AbortController | null = null
 
     const userStore = useUserStore()
 
     const updatePoolInfo = async () => {
-        if (!userStore.userId) return
+        if (!userStore.userId) {
+            poolInfo.value = undefined
+            return
+        }
         // 取消上一次未完成的请求
         fetchController?.abort()
         fetchController = new AbortController()
- 
-        loading.value = true    
+
+        loading.value = true
         try {
             const res = await GetPoolInfo(userStore.userId, poolType.value)
             // 确保不是被 abort 掉的旧请求
@@ -30,7 +33,7 @@ export const usePoolStore = defineStore('pool', () => {
         } catch (err) {
             NotifyError('Error', err)
         } finally {
-            loading.value = false    
+            loading.value = false
         }
     }
 
@@ -38,5 +41,5 @@ export const usePoolStore = defineStore('pool', () => {
         await updatePoolInfo()
     }
 
-    return {poolType, poolInfo, loading, updatePoolInfo, init}
+    return { poolType, poolInfo, loading, updatePoolInfo, init }
 })
