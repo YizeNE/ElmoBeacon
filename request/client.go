@@ -29,6 +29,24 @@ func NewHttpClient() (*http.Client, error) {
 
 }
 
+// NewDownloadClient 创建专用于大文件下载的 HTTP client
+func NewDownloadClient() (*http.Client, error) {
+	proxyURL, err := getSystemProxy()
+	if err != nil {
+		return nil, err
+	}
+	transport := &http.Transport{
+		TLSHandshakeTimeout:   10 * time.Second,
+		ResponseHeaderTimeout: 10 * time.Second,
+	}
+	if proxyURL != nil {
+		transport.Proxy = http.ProxyURL(proxyURL)
+	}
+	return &http.Client{
+		Transport: transport,
+	}, nil
+}
+
 // parseProxyServer 处理 Windows 注册表中 ProxyServer 的两种格式：
 //   - 简单格式: "127.0.0.1:8888"
 //   - 扩展格式: "http=127.0.0.1:8888;https=127.0.0.1:8888"
