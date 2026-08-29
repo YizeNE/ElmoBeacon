@@ -98,7 +98,8 @@ export default {
             changelog: '更新日誌',
             latest: '已是最新版本',
             confirm: '更新',
-            cancel: '取消'
+            cancel: '取消',
+            downloading: "正在下載更新"
         },
     },
     theme: {

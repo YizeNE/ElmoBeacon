@@ -98,7 +98,8 @@ export default {
             changelog: "What's New",
             latest: 'Already the latest version.',
             confirm: 'Update Now',
-            cancel: 'Not Now'
+            cancel: 'Not Now',
+            downloading: "Downloading Update"
         },
     },
     theme: {
