@@ -39,6 +39,7 @@ const handleWindowMaximise = async () => {
     <div style="--wails-draggable:no-drag" class="flex flex-row items-center gap-1">
       <SelectorUser />
       <ButtonSyncRecords />
+      <ButtonImportRecords />
       <ButtonColorPalette />
       <SelectorLanguage />
 

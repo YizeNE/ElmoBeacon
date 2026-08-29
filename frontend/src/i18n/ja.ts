@@ -73,6 +73,37 @@ export default {
             }
         }
     },
+    import: {
+        button: {
+            title: "インポート記録"
+        },
+        loading: "インポートしてマージ中...",
+        dialog: {
+            title: "インポート記録",
+            uid: "UID",
+            uidPlaceholder: "UIDを入力してください",
+            server: "サーバー",
+            file: "記録ファイル",
+            filePlaceholder: "インポートする記録ファイルを選択してください",
+            fileSelected: "ファイル選択済み",
+            browse: "参照",
+            tips: "現在GFL2 HELPの記録のみインポートに対応しています。データ破損を防ぐため、無関係なファイルを選択しないでください。",
+            cancel: "キャンセル",
+            startImport: "インポート開始",
+            importing: "インポート中...",
+            uidRequired: "UIDは必須です",
+            fileRequired: "インポートファイルを選択してください",
+            importError: "インポートエラー",
+            invalidJson: "ファイル形式が不正です。正しい記録ファイルを選択してください"
+        },
+        result: {
+            success: {
+                title: "{server} {uid} インポート成功",
+                changed: "{poolType}：マージ成功 {successCount} 件、失敗 {failCount} 件",
+                unchanged: "新規データなし"
+            }
+        }
+    },
     theme: {
         change: "テーマを変更",
         custom: "カスタムテーマ",

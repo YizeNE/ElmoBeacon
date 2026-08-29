@@ -34,6 +34,10 @@ export function GetVersion() {
   return window['go']['handler']['App']['GetVersion']();
 }
 
+export function ImportRecords(arg1, arg2, arg3) {
+  return window['go']['handler']['App']['ImportRecords'](arg1, arg2, arg3);
+}
+
 export function SelectFilePath() {
   return window['go']['handler']['App']['SelectFilePath']();
 }

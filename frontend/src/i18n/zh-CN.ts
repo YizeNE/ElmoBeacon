@@ -92,6 +92,37 @@ export default {
             selectDirError: '选择目录失败'
         }
     },
+    import: {
+        button: {
+            title: '导入记录',
+        },
+        loading: '正在导入合并...',
+        dialog: {
+            title: '导入记录',
+            uid: 'UID',
+            uidPlaceholder: '请输入您的UID',
+            server: '服务器',
+            file: '记录文件',
+            filePlaceholder: '请选择要导入的记录文件',
+            fileSelected: '已选择文件',
+            browse: '浏览',
+            tips: '目前仅支持导入GFL2 HELP的记录，请勿选择无关文件以免造成数据损坏。',
+            cancel: '取消',
+            startImport: '开始导入',
+            importing: '导入中...',
+            uidRequired: 'UID不能为空',
+            fileRequired: '请选择导入文件',
+            importError: '导入错误',
+            invalidJson: '文件格式错误，请选择正确的记录文件'
+        },
+        result: {
+            success: {
+                title: '{server} {uid} 导入成功',
+                changed: '{poolType}：合并成功 {successCount} 条，失败 {failCount} 条',
+                unchanged: '无新增数据'
+            }
+        }
+    },
     version: {
         checkUpdate: '检查更新',
         update: {
@@ -113,15 +144,15 @@ export default {
         apply: "应用",
         cancel: "取消"
     },
-    user:{
-        change:"切换用户",
-        deleteTitle:"删除用户",
-        deleteHint:"确认删除此用户及其所有抽卡记录?",
-        confirmBtn:"确认",
-        cancelBtn:"取消",
-        deleteSuccess:"删除成功"
+    user: {
+        change: "切换用户",
+        deleteTitle: "删除用户",
+        deleteHint: "确认删除此用户及其所有抽卡记录?",
+        confirmBtn: "确认",
+        cancelBtn: "取消",
+        deleteSuccess: "删除成功"
     },
-    language:{
-        change:"更改语言"
+    language: {
+        change: "更改语言"
     }
 }

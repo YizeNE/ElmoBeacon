@@ -91,6 +91,37 @@ export default {
             "selectDirError": "選擇目錄失敗"
         }
     },
+    import: {
+        button: {
+            title: "匯入記錄"
+        },
+        loading: "正在匯入合併...",
+        dialog: {
+            title: "匯入記錄",
+            uid: "UID",
+            uidPlaceholder: "請輸入您的UID",
+            server: "伺服器",
+            file: "記錄檔案",
+            filePlaceholder: "請選擇要匯入的記錄檔案",
+            fileSelected: "已選擇檔案",
+            browse: "瀏覽",
+            tips: "目前僅支援匯入GFL2 HELP的記錄，請勿選擇無關檔案以免造成資料損壞。",
+            cancel: "取消",
+            startImport: "開始匯入",
+            importing: "匯入中...",
+            uidRequired: "UID不能為空",
+            fileRequired: "請選擇匯入檔案",
+            importError: "匯入錯誤",
+            invalidJson: "檔案格式錯誤，請選擇正確的記錄檔案"
+        },
+        result: {
+            success: {
+                title: "{server} {uid} 匯入成功",
+                changed: "{poolType}：合併成功 {successCount} 條，失敗 {failCount} 條",
+                unchanged: "無新增資料"
+            }
+        }
+    },
     version: {
         checkUpdate: '檢查更新',
         update: {

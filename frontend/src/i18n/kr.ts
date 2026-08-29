@@ -73,6 +73,37 @@ export default {
             }
         }
     },
+    import: {
+        button: {
+            title: "가져오기 기록"
+        },
+        loading: "가져와서 병합 중...",
+        dialog: {
+            title: "가져오기 기록",
+            uid: "UID",
+            uidPlaceholder: "UID를 입력하세요",
+            server: "서버",
+            file: "기록 파일",
+            filePlaceholder: "가져올 기록 파일을 선택하세요",
+            fileSelected: "파일 선택됨",
+            browse: "찾아보기",
+            tips: "현재 GFL2 HELP 기록만 가져올 수 있습니다. 데이터 손상을 방지하기 위해 관련 없는 파일을 선택하지 마세요.",
+            cancel: "취소",
+            startImport: "가져오기 시작",
+            importing: "가져오는 중...",
+            uidRequired: "UID는 필수입니다",
+            fileRequired: "가져올 파일을 선택하세요",
+            importError: "가져오기 오류",
+            invalidJson: "파일 형식이 올바르지 않습니다. 올바른 기록 파일을 선택하세요"
+        },
+        result: {
+            success: {
+                title: "{server} {uid} 가져오기 성공",
+                changed: "{poolType}: 병합 성공 {successCount}건, 실패 {failCount}건",
+                unchanged: "새 데이터 없음"
+            }
+        }
+    },
     theme: {
         change: "테마 변경",
         custom: "사용자 정의 테마",

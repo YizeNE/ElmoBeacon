@@ -21,6 +21,8 @@ export function GetUserList():Promise<Array<model.User>>;
 
 export function GetVersion():Promise<string>;
 
+export function ImportRecords(arg1:number,arg2:string,arg3:service.ImportFile):Promise<service.ImportResult>;
+
 export function SelectFilePath():Promise<string>;
 
 export function SetSetting(arg1:string,arg2:string):Promise<void>;

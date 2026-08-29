@@ -91,6 +91,37 @@ export default {
             "selectDirError": "Failed to select directory"
         }
     },
+    import: {
+        button: {
+            title: "Import Records"
+        },
+        loading: "Importing and merging...",
+        dialog: {
+            title: "Import Records",
+            uid: "UID",
+            uidPlaceholder: "Please enter your UID",
+            server: "Server",
+            file: "Record File",
+            filePlaceholder: "Please select the record file to import",
+            fileSelected: "File selected",
+            browse: "Browse",
+            tips: "Currently only GFL2 HELP records are supported for import. Please do not select unrelated files to avoid data corruption.",
+            cancel: "Cancel",
+            startImport: "Start Import",
+            importing: "Importing...",
+            uidRequired: "UID is required",
+            fileRequired: "Please select an import file",
+            importError: "Import error",
+            invalidJson: "Invalid file format. Please select the correct record file"
+        },
+        result: {
+            success: {
+                title: "{server} {uid} imported successfully",
+                changed: "{poolType}: {successCount} merged successfully, {failCount} failed",
+                unchanged: "No new data"
+            }
+        }
+    },
     version: {
         checkUpdate: 'Check for Updates',
         update: {

@@ -21,3 +21,12 @@ func (a *App) SyncRecords(uid uint64, filePath string) (*service.SyncResult, err
 
 	return syncResult, nil
 }
+
+// ImportRecords 导入外部抽卡记录
+func (a *App) ImportRecords(uid uint64, server string, importData service.ImportFile) (*service.ImportResult, error) {
+	importResult, err := service.ImportRecords(uid, server, importData)
+	if err != nil {
+		return nil, err
+	}
+	return importResult, nil
+}
