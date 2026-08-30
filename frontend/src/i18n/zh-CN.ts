@@ -131,7 +131,8 @@ export default {
             latest: '已是最新版本',
             confirm: '更新',
             cancel: '取消',
-            downloading: "正在下载更新"
+            downloading: "正在下载更新",
+            installing: "正在安装更新"
         },
     },
     theme: {

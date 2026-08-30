@@ -130,7 +130,8 @@ export default {
             latest: '已是最新版本',
             confirm: '更新',
             cancel: '取消',
-            downloading: "正在下載更新"
+            downloading: "正在下載更新",
+            installing: "正在安裝更新"
         },
     },
     theme: {

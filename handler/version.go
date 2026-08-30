@@ -2,12 +2,15 @@ package handler
 
 import (
 	"ElmoBeacon/request"
+	"archive/zip"
+	"bytes"
 	"context"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"os/exec"
+	"strings"
 	"sync"
 
 	"github.com/inconshreveable/go-update"
@@ -61,6 +64,27 @@ func (pr *progressReader) Read(p []byte) (int, error) {
 	return n, err
 }
 
+// extractExeFromZip 从 zip 中提取 ElmoBeacon/ElmoBeacon.exe 并返回其内容
+func extractExeFromZip(zipData []byte) ([]byte, error) {
+	reader, err := zip.NewReader(bytes.NewReader(zipData), int64(len(zipData)))
+	if err != nil {
+		return nil, err
+	}
+
+	for _, file := range reader.File {
+		if strings.HasSuffix(file.Name, "ElmoBeacon.exe") && !file.FileInfo().IsDir() {
+			rc, err := file.Open()
+			if err != nil {
+				return nil, err
+			}
+			defer rc.Close()
+			return io.ReadAll(rc)
+		}
+	}
+
+	return nil, errors.New("ElmoBeacon.exe not found in zip")
+}
+
 func (a *App) GetVersion() string {
 	return Version
 }
@@ -81,7 +105,7 @@ func (a *App) UpdateTo(version string) error {
 		return err
 	}
 
-	downloadURL := fmt.Sprintf("https://github.com/%s/%s/releases/download/%s/ElmoBeacon.exe", Owner, Repo, version)
+	downloadURL := fmt.Sprintf("https://github.com/%s/%s/releases/download/%s/ElmoBeacon.zip", Owner, Repo, version)
 
 	// 创建可取消的 context
 	dlCtx, cancel := context.WithCancel(context.Background())
@@ -127,12 +151,33 @@ func (a *App) UpdateTo(version string) error {
 		ctx:    a.ctx, // Wails app context，用于 EventsEmit
 	}
 
-	err = update.Apply(pr, update.Options{})
+	// 先将 zip 全部读入内存
+	zipData, err := io.ReadAll(pr)
 	if err != nil {
 		if dlCtx.Err() == context.Canceled {
 			log.Info().Msg("update canceled by user when update")
 			return ErrUpdateCanceled
 		}
+		log.Error().Err(err).Msg("failed to read response body when update")
+		return err
+	}
+
+	// 从 zip 中提取 exe
+	exeData, err := extractExeFromZip(zipData)
+	if err != nil {
+		log.Error().Err(err).Msg("failed to extract exe from zip when update")
+		return err
+	}
+
+	// 通知前端：下载完成，正在安装
+	runtime.EventsEmit(a.ctx, "update:progress", map[string]interface{}{
+		"percent":    100,
+		"installing": true,
+	})
+
+	// 应用更新
+	err = update.Apply(bytes.NewReader(exeData), update.Options{})
+	if err != nil {
 		log.Error().Err(err).Msg("failed to apply update when update")
 		return err
 	}

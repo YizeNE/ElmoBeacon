@@ -130,7 +130,8 @@ export default {
             latest: 'Already the latest version.',
             confirm: 'Update Now',
             cancel: 'Not Now',
-            downloading: "Downloading Update"
+            downloading: "Downloading Update",
+            installing: "Installing update"
         },
     },
     theme: {
