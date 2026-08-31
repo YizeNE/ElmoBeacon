@@ -137,10 +137,18 @@ func ImportRecords(uid uint64, server string, importData ImportFile) (*ImportRes
 			return nil, errors.New("Failed to delete old records")
 		}
 		if len(merged) > 0 {
-			if _, err := session.Insert(&merged); err != nil {
-				session.Rollback()
-				log.Error().Err(err).Msg("failed to insert merged records when import records")
-				return nil, errors.New("Failed to insert merged records")
+			batchSize := 100
+			for i := 0; i < len(merged); i += batchSize {
+				end := i + batchSize
+				if end > len(merged) {
+					end = len(merged)
+				}
+				batch := merged[i:end]
+				if _, err := session.Insert(&batch); err != nil {
+					session.Rollback()
+					log.Error().Err(err).Msg("failed to insert merged records when import records")
+					return nil, errors.New("Failed to insert merged records")
+				}
 			}
 		}
 		if err := session.Commit(); err != nil {
