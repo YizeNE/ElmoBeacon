@@ -71,9 +71,9 @@ type Item struct {
 	Name  *LanguageStringData    `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	// LanguageStringData introduction = 3;
 	// repeated string description = 4;
-	Type          int64  `protobuf:"varint,5,opt,name=type,proto3" json:"type,omitempty"`
-	Icon          string `protobuf:"bytes,7,opt,name=icon,proto3" json:"icon,omitempty"`
-	Rank          int64  `protobuf:"varint,8,opt,name=rank,proto3" json:"rank,omitempty"`
+	Type          int64  `protobuf:"varint,6,opt,name=type,proto3" json:"type,omitempty"`
+	Icon          string `protobuf:"bytes,8,opt,name=icon,proto3" json:"icon,omitempty"`
+	Rank          int64  `protobuf:"varint,9,opt,name=rank,proto3" json:"rank,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -153,9 +153,9 @@ const file_proto_ItemData_proto_rawDesc = "" +
 	"\x04Item\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12*\n" +
 	"\x04name\x18\x02 \x01(\v2\x16.pb.LanguageStringDataR\x04name\x12\x12\n" +
-	"\x04type\x18\x05 \x01(\x03R\x04type\x12\x12\n" +
-	"\x04icon\x18\a \x01(\tR\x04icon\x12\x12\n" +
-	"\x04rank\x18\b \x01(\x03R\x04rankB\x06Z\x04./pbb\x06proto3"
+	"\x04type\x18\x06 \x01(\x03R\x04type\x12\x12\n" +
+	"\x04icon\x18\b \x01(\tR\x04icon\x12\x12\n" +
+	"\x04rank\x18\t \x01(\x03R\x04rankB\x06Z\x04./pbb\x06proto3"
 
 var (
 	file_proto_ItemData_proto_rawDescOnce sync.Once
